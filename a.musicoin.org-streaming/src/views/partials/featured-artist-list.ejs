@@ -1,0 +1,84 @@
+<%
+    var sizeAttr = typeof iconSize == "undefined" ? "large" : iconSize;
+    if (artists && artists.length > 0) {
+%>
+<style>
+    .featured-artist-badge-name {
+        display: flex;
+        flex-direction: column;
+        color: #333;
+        height: 55px;
+    }
+    .featured-section {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .featured-item {
+        margin-left: 10px;
+        color: white;
+        margin-bottom: 10px;
+    }
+    .featured-artist-info {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        max-width: 118px;
+        padding: 5px;
+        border-radius: 4px;
+    }
+    .featured-artist-info:hover {
+        text-decoration: none;
+    }
+    .featured-artist-description {
+        color: #aaa;
+        max-height: 48px;
+        max-width: 300px;
+        display: inline-flex;
+        overflow: hidden;
+    }
+    .featured-artist-image {
+        border-radius: 50%;
+        width: 108px;
+        height: 108px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .featured-artist-name {
+        font-size: 18px;
+        max-width: 108px;
+        overflow: hidden;
+    }
+
+    .featured-artist-image[small] {
+        width: 64px;
+        height: 64px;
+    }
+    .featured-artist-name[small] {
+        font-size: 12px;
+        max-width: 64px;
+    }
+    .featured-artist-badge-name[small] {
+        display: flex;
+        flex-direction: column;
+        color: #333;
+        height: 35px;
+    }
+</style>
+<div class="featured-section">
+    <%
+        for (var i = 0; i < artists.length; i++) {
+            var artist = artists[i];
+    %>
+    <div class="featured-item">
+        <a href="/artist/<%=artist.profileAddress%>"  class="featured-artist-info">
+            <div class="featured-artist-image shadow" style="background-image: url('<%=artist.image%>')" <%=sizeAttr%>></div>
+            <div class="featured-artist-badge-name" <%=sizeAttr%>>
+                <div class="featured-artist-name text-center" <%=sizeAttr%> title="<%=artist.artistName%>"><%=artist.artistName%></div>
+            </div>
+        </a>
+    </div>
+    <%}%>
+</div>
+<%}%>

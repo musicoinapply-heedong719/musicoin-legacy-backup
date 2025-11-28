@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Musicoin Admin Dashboard Template</title>
+    <link rel="stylesheet" href="/dependencies/admin/css/admin.min.css">
+    <link rel="stylesheet" href="/dependencies/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/dependencies/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dependencies/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include admin-header.ejs %>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Dashboard v2</h1>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="https://musicoin.org/feed">Musicoin</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Dashboard v2</li>
+                                </ol>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <!-- Main content -->
+
+                <section class="content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>User</th>
+                                            <th>Track</th>
+                                            <th>Plays&nbsp;/&nbsp;Tips</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>User</th>
+                                            <th>Track</th>
+                                            <th>Plays&nbsp;/&nbsp;Tips</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.card -->
+            </div>
+            <!-- /.col -->
+    </div>
+
+    <!-- /.row -->
+    </section>
+    <!--/. container-fluid -->
+    <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    </div>
+    <script src="/dependencies/admin/js/jquery.min.js" type="text/javascript"></script>
+    <!-- Bootstrap -->
+    <script src="/dependencies/admin/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="/dependencies/admin/js/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="/dependencies/admin/js/dataTables.bootstrap4.js" type="text/javascript"></script>
+    <!-- AdminLTE App -->
+    <script src="/dependencies/admin/js/admin.js" type="text/javascript"></script>
+    <!-- PAGE PLUGINS -->
+    <!-- SparkLine -->
+    <script src="/dependencies/admin/js/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="/dependencies/admin/js/chart.min.js" type="text/javascript"></script>
+
+    <!-- ./wrapper -->
+    <%- include admin-footer.ejs %>
+        <!-- plugins:js -->
+       <!-- End custom js for this page-->
+        <script>
+            $( document ).ready(function() {
+                $(function () {
+                $("#example1").DataTable({
+                    "processing": true,
+                    "ajax": {
+                        "url": "/admin/elements/playback-history", "dataSrc": function (json) {
+                            var return_data = new Array();
+
+                            for (var i = 0; i < json.length; i++) {
+                                var playback = json[i];
+                                console.log("PLAYBACK", playback);
+                                var playbackDateDisplay = "";
+                                var artistName = "";
+                                var title = "";
+                                var directPlayCount = "";
+                                var directTipCount = "";
+                                var user = "";
+                                var tip = "";
+                                if (playback.user != null) {
+                                    user += '<td>' + playback.user.draftProfile.artistName + '</td>';
+                                }
+                                else if (playback.anonymousUser != null) {
+                                    user += '<td>' + playback.anonymousUser.ip + '<br>' + playback.anonymousUser.session + '<br><a class="de-parameter-setter clickable ' + playback.anonymousUser.accountLocked != null ? "ID: " + playback.anonymousUser._id + " IP: " + playback.anonymousUser.ip  : "blocked-user";
+                                }
+                                else {
+                                    user += '<td></td>';
+                                }
+
+                                title += '<td>' + playback.release.title + '<br><a target="release-window" href="/track/' + playback.release.contractAddress + '">view</a></td>';
+
+                                playbackDateDisplay += playback.playbackDate;
+
+                                directPlayCount = playback.release.directPlayCount || "0";
+                                directTipCount += playback.release.directTipCount || "0";
+
+                                tip = '<td>' + directPlayCount + '/' +
+                                    directTipCount + '</td>';
+
+                                return_data.push({
+                                    'playbackDateDisplay': playbackDateDisplay,
+                                    'user': user,
+                                    'title': title,
+                                    'tip': tip
+                                });
+                            }
+                            return return_data;
+                        }
+                    },
+                    columns: [
+                        { 'data': 'playbackDateDisplay' },
+                        { 'data': 'user' },
+                        { 'data': 'title' },
+                        { 'data': 'tip' }
+                    ]
+                });
+            });
+});
+
+        </script>
+</body>
+
+</html>

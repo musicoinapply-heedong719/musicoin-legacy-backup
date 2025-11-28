@@ -1,0 +1,29 @@
+<!-- The below terms might change in the future with changing landscapes -->
+<div class="flex-column">
+    <div class="flex-row" style="justify-content: center">
+        <div class="wizard-card-segment">
+            <h1>Please read the <a href="https://musicoin.org/legal/tos" style="color: red !important">terms and conditions</a> before releasing a track on Musicoin</h1>
+            <div class="text-center alert alert-warning mt20">
+                <input type="checkbox" id=terms name="terms" value=confirmed onchange="updateTermsNextButton()">
+                <label for="terms" style="text-transform: none;">
+                    I have read the terms in its entirety and I agree to the sepcified terms of use
+                </label>
+            </div>
+
+            <div class="wizard-button-bar">
+                <div id=fromTermsToNext class="navNext btn btn-success disabled">Next</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+  function updateTermsNextButton() {
+    $('#fromTermsToNext').toggleClass('disabled', !isTermsDone())
+  }
+
+  function isTermsDone() {
+    return $('#terms').prop("checked");
+  }
+</script>

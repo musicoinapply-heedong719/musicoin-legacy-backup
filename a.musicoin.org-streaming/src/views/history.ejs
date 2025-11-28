@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <title>History - Musicoin</title>
+    <%- include('partials/page-head.ejs') %>
+    <style>
+        body        {
+            word-wrap:break-word;
+        }
+        .faq-question {
+            font-size: x-large;
+        }
+        .faq-answer {
+            font-size: x-large;
+        }
+        .history {
+            padding: 3px;
+            min-width: 20px;
+        }
+        .history-nav {
+            display: flex;
+            justify-content: space-between;
+        }
+        .history-nav-link {
+            margin-left: 10px;
+            font-size: 14pt;
+        }
+
+        .row1 {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .timestamp {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+<%- include('partials/header.ejs') %>
+<div class="container">
+    <div class="page-header">
+        <h1><%=name%></h1>
+        <div class="subtle-text"><%=address%></div>
+    </div>
+    <div class="row">
+        <div class="well white-well">
+            <div class="history-nav">
+                <div>
+                    <%=navigation.description%>
+                </div>
+                <div>
+                    <% if (navigation.start) { %>
+                        <a class="history-nav-link" href="<%=navigation.start%>">first</a>
+                    <%}%>
+                    <% if (navigation.back) { %>
+                        <a class="history-nav-link" href="<%=navigation.back%>">back</a>
+                    <%}%>
+                    <% if (navigation.next) { %>
+                        <a class="history-nav-link" href="<%=navigation.next%>">next</a>
+                    <%}%>
+                </div>
+            </div>
+            <table class="table table-sm table-responsive">
+                <tr>
+                    <th><div class="history">Type</div></th>
+                    <th><div class="history">Title</div></th>
+                    <!--<th><div class="history">Source</div></th>-->
+                    <th class="big-screen-only"><div class="history">From/To</div></th>
+                    <th><div class="history text-right">Musicoins</div></th>
+                    <th><div class="history">Time</div></th>
+                </tr>
+            <%
+            var alternate = false;
+            var prev = "";
+            for (var i=0; i < history.length; i++) {
+                var item = history[i];
+                item.incoming = address == item.to;
+                item.outgoing = address == item.from;
+
+                var icon = item.incoming ? "from " : item.outgoing ? "to " : "";
+                var addr = item.incoming ? item.from : item.to;
+                var style = "";
+                if (user && user.profileAddress && user.profileAddress==addr) {
+                  addr = "your profile";
+                }
+                if (item.transactionHash != prev) {
+                  alternate = !alternate;
+                  prev = item.transactionHash;
+                }
+                else {
+                  style = "border-top: 0px";
+                }
+                var rowClass = alternate ? "row1" : "row2";
+            %>
+                <tr class="<%=rowClass%>">
+                    <td style="<%=style%>"><div class="history"><%=item.eventType%></div></td>
+                    <td style="<%=style%>"><div class="history"><%=item.title%></div></td>
+                    <!--<td><div class="history">-->
+                            <!--<img src="/images/icon.png" width="24px" height="24px"><span class="big-screen-only"> <%=item.source%></span></div>-->
+                    <!--</td>-->
+                    <td style="<%=style%>" class="big-screen-only"><div class="history"><%=icon%><%=addr%></div></td>
+                    <td style="<%=style%>"><div class="history text-right"><%=item.musicoins%> <a target="_blank" href="https://explorer.musicoin.org/tx/<%=item.transactionHash%>"> (tx)</a></div></td>
+                    <td style="<%=style%>"><div class="history timestamp"><%=item.formattedDate%></div></td>
+                </tr>
+            <%}%>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

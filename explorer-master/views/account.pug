@@ -1,0 +1,135 @@
+extends layout
+
+block content
+  if account.isContract
+    h5 Contract #{account.address}
+  else
+    h5 Account #{account.address}
+  table.table
+    if account.name
+      tr
+        td
+          b Name: 
+          |   #{account.name}
+    tr
+      td
+        b Balance:
+        |   #{ethformatter(account.balance)}
+    tr
+      td Total Blocks Mined: #{account.numberOfBlocksMined}, Uncle Blocks: #{account.numberOfUncles} (Since Block ##{account.fromBlock})
+
+  div
+    ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href='#transactions', aria-controls='transactions', role='tab', data-toggle='tab') Transactions
+      if account.isContract
+        li(role='presentation')
+          a(href='#code', aria-controls='code', role='tab', data-toggle='tab') Code
+      if account.source
+        li(role='presentation')
+          a(href='#source', aria-controls='source', role='tab', data-toggle='tab') Source
+        li(role='presentation')
+          a(href='#contractState', aria-controls='source', role='tab', data-toggle='tab') Contract State
+    .tab-content
+      #transactions.tab-pane.active(role='tabpanel')
+        h4 #{account.numberOfTransactions} transactions from block ##{account.fromBlock} to ##{account.lastBlock}
+        table.table
+          thead
+            tr
+              th Block
+              th Tx
+              th Time
+              th(style='text-align:right') Difficulty
+              th(style='text-align:right') Approx. Rate
+              th Type
+              th(style='text-align:right') Amount
+              th(style='text-align:right') Balance
+              th
+              th From
+              th To
+          tbody
+            for block in account.blocks
+              for trace in block
+                if trace.type == "call" && (trace.action.from == account.address || trace.action.to == account.address)
+                  tr            
+                    td
+                      a(href="/block/" + trace.blockNumber) #{trace.blockNumber}
+                    td 
+                      a(href="/tx/" + trace.transactionHash)  #{trace.transactionHash.substr(0, 10)}...
+                    td #{moment.unix(block.time).format()} (#{moment.unix(block.time).fromNow()})
+                    td(style='text-align:right') #{numeral(block.difficulty * 1e-12).format('0.000')} TH
+                    td(style='text-align:right') #{numeral(block.difficulty * 1e-9 / 15).format('0.00')} GH/s
+                    td.capitalize
+                      if trace.error
+                        span(style="color: red", data-toggle="tooltip", data-placement="left", title=trace.error).glyphicon.glyphicon-warning-sign
+                      |  #{trace.type}
+                    td(style='text-align:right') #{ethformatter(trace.action.value)}
+                    td(style='text-align:right') #{ethformatter(block.balance)}
+
+                    td
+                      if trace.action.from == account.address
+                        span.glyphicon.glyphicon-export(style="color: red;")
+                      else
+                        span.glyphicon.glyphicon-import(style="color: green;")
+                    td
+                      a(href="/account/" + trace.action.from) #{nameformatter.format(trace.action.from.substr(0, 10))}...
+                    td 
+                      a(href="/account/" + trace.action.to) #{nameformatter.format(trace.action.to.substr(0, 10))}...
+                else if trace.type == "reward" && trace.action.author == account.address
+                  if trace.action.rewardType == "block"
+                    tr            
+                      td
+                        a(href="/block/" + trace.blockNumber) #{trace.blockNumber}
+                      td
+                      td #{moment.unix(block.time).format()} (#{moment.unix(block.time).fromNow()})
+                      td(style='text-align:right') #{numeral(block.difficulty * 1e-12).format('0.000')} TH
+                      td(style='text-align:right') #{numeral(block.difficulty * 1e-9 / 15).format('0.00')} GH/s
+                      td Mined
+                      td(style='text-align:right') #{ethformatter(trace.action.value)}
+                      td(style='text-align:right') #{ethformatter(block.balance)}
+
+                      td
+                      td
+                      td
+                  else if trace.action.rewardType == "uncle"
+                    tr            
+                      td
+                        a(href="/block/" + trace.blockNumber) #{trace.blockNumber}
+                      td
+                      td #{moment.unix(block.time).format()} (#{moment.unix(block.time).fromNow()})
+                      td(style='text-align:right') #{numeral(block.difficulty * 1e-12).format('0.000')} TH
+                      td(style='text-align:right') #{numeral(block.difficulty * 1e-9 / 15).format('0.00')} GH/s
+                      td Uncle
+                      td(style='text-align:right') #{ethformatter(trace.action.value)}
+                      td(style='text-align:right') #{ethformatter(block.balance)}
+
+                      td
+                      td
+                      td
+      
+      if account.isContract
+        #code.tab-pane(role='tabpanel')
+          h3 Code
+          if !account.source
+            a(href="/contract/verify") Upload source
+          pre #{account.code}
+      if account.source
+        #source.tab-pane(role='tabpanel')
+          h4 Source
+          pre #{account.source.source}
+          h4 ABI
+          pre #{account.source.abi}
+          h4 Constructor
+          pre #{account.source.constructorArgs}
+        #contractState.tab-pane(role='tabpanel')
+          h4 Current contract state
+          table.table
+            thead
+              tr
+                th Function
+                th Result
+            tbody
+              for item in account.contractState
+                tr
+                  td #{item.name}
+                  td #{item.result}

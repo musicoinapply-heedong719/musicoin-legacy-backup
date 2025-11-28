@@ -1,0 +1,16 @@
+.new-artist {
+    padding: 0 16px;
+    &__badge {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 16px 0 0 0;
+        border-bottom: 1px solid #E6ECF0;
+    }
+    &__pic {
+        margin-bottom: 16px;
+        img{
+            border-radius: 24px;
+        }
+    }
+}

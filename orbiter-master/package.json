@@ -1,0 +1,24 @@
+{
+  "name": "MusicoinOrbiter",
+  "private": false,
+  "version": "0.1.0",
+  "description": "A lightweight explorer for Musicoin blockchain",
+  "repository": "https://github.com/musicoin/orbiter",
+  "license": "MIT",
+  "dependencies": {
+    "bignumber.js": "^2.4.0",
+    "body-parser": "^1.15.2",
+    "ejs": "~0.8.5",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "http": "*",
+    "https": "*",
+    "mongoose": "^4.5.8",
+    "morgan": "^1.7.0",
+    "serve-favicon": "~2.1.3",
+    "socket.io": "^1.4.8",
+    "solc": "file:local_modules/solc",
+    "redirect-https": "*",
+    "web3": "^0.17.0-alpha"
+  }
+}

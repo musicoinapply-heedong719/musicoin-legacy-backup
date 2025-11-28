@@ -1,0 +1,7 @@
+{
+  "codeFile": "solidity/mvp5/Artist.sol.bin",
+  "abiFile": "solidity/mvp5/Artist.sol.abi",
+  "deploymentGas": 4700000,
+  "type": "artist",
+  "version": "v0.2"
+}

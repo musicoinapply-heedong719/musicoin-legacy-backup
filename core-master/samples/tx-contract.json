@@ -1,0 +1,56 @@
+{
+  "transactionHash": "0xb63faac108e69f2072d3e91565b171abf43662decfcd74dc26e2bada87c98241",
+  "eventType": "creation",
+  "from": "0xd194c585c559684939a1bf1d31cddc40017ac9d4",
+  "to": null,
+  "contractMetadata": {
+    "type": "PPP",
+    "version": "v0.2"
+  },
+  "license": {
+    "resourceUrl": "eipfs://QmZTPnn9XqRMNLnN5WG1Yrr7k11hLLZFM6aruj38gMMTcZ",
+    "totalShares": "1",
+    "licenseVersion": "1",
+    "metadataVersion": "0",
+    "totalEarned": "0",
+    "workAddress": "0x291aef450da76742b4a7b959500f3e072b3ec0e9",
+    "owner": "0xd194c585c559684939a1bf1d31cddc40017ac9d4",
+    "playCount": "0",
+    "contractVersion": "v0.2",
+    "weiPerPlay": "1000000000000000000",
+    "totalTipped": "0",
+    "metadataUrl": "ipfs://QmP1KHYNLwbGvwfwA8HnBojus5wm2KxJGQL7Q7Q2ohxVpf",
+    "tipCount": "0",
+    "contributors": [
+      {
+        "address": "0xd194c585c559684939a1bf1d31cddc40017ac9d4",
+        "shares": "1"
+      }
+    ],
+    "royalties": [],
+    "coinsPerPlay": "1",
+    "address": "0x01e79295c70fc6b47248e45f6df95b3d5e323fe5",
+    "artist": "YYY",
+    "title": "XXX",
+    "workType": "0",
+    "imageUrl": "ipfs://QmVBgJt3aXuWQxxM16M4od4zWYW2a4ZfrqkpKBKuH6WSLK",
+    "logger": "0x1ba9842b9f4886837edff6d2286342c47ad8085a",
+    "image": "/ipfs/QmVBgJt3aXuWQxxM16M4od4zWYW2a4ZfrqkpKBKuH6WSLK"
+  },
+  "artistProfile": {
+    "descriptionUrl": "ipfs://QmPkYEmA2z7gcr7W41Zc3aFwhhiWZgJGDNBjrH8ZNXvwSV",
+    "artistName": "Dan",
+    "owner": "0xd194c585c559684939a1bf1d31cddc40017ac9d4",
+    "imageUrl": "ipfs://QmS8n4RKatEwtUY5bsuNbY8T6QLGvAVvjvf22s4Su3R9NV",
+    "followers": "0",
+    "socialUrl": "ipfs://QmPVVPHZV3zWZSsNZkRsainXTondciQpxqh4wSfgpCrmT3",
+    "tipTotal": "0",
+    "tipCount": "0",
+    "description": "Here is some description of the artist",
+    "social": {
+      "twitter": "https://twitter.com/danphifer",
+      "linkedin": ""
+    },
+    "image": "/ipfs/QmS8n4RKatEwtUY5bsuNbY8T6QLGvAVvjvf22s4Su3R9NV"
+  }
+}

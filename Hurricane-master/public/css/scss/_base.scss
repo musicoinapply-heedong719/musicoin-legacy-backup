@@ -1,0 +1,46 @@
+html, body {
+  font-family: 'Roboto', sans-serif;
+  // font-size: 16px;
+  background: #f9f9f9;
+  box-sizing: border-box;
+}
+
+ul, li {
+  list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+//font variables
+$font_primary: 'Roboto', sans-serif;
+$font_secondary: 'Roboto', sans-serif;
+$base_font-size: 16 !default;
+$base_line-height: 20 !default;
+
+// @font-face {
+//   font-family: "Bariol";
+//   src: url("../fonts/bariol_regular-webfont.woff");
+// }
+
+// color variables
+$color_brand: #F3921B;
+$color_heading: #6b7a82;
+$color_subheading: #333;
+$color_paragraph: #4a6365;
+$color_paragraph_2: #969696;
+$color_link: #6fa5d8;
+$color_border: #f7f7f7;
+$color_border_2: #e1e1e1;
+$color_blue_dark: #384c78;
+$color_blue_light: #2d74de;
+$color_blue_sky: #47b9f3;
+$color_green: #56be89;
+$color_orange: #ff8947;
+
+// px to em converter function
+@function em($px, $base: $base_font-size) {
+  @return ($px / $base) * 1em;
+}

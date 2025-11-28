@@ -1,0 +1,15 @@
+// pm2 app configuration
+{
+    "apps" : [{
+        "name"        : "explorer",
+        "script"      : "./app.js",
+        "watch"       : true,
+        "env": {
+            "PORT": 6789,
+            "NODE_ENV": "production"
+        },
+    },{
+        "name"       : "syncer",
+        "script"     : "./tools/sync.js",
+    }]
+}

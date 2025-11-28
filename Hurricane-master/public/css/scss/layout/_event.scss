@@ -1,0 +1,44 @@
+.event {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #E6ECF0;
+
+    &__schedule {
+        margin-right: 16px;
+    }
+    &__day {
+       font-size: em(12, $base_font-size);
+       font-weight: 700;
+       color: #8899A6;
+       margin-bottom: 4px;
+    }
+    &__date {
+       font-size: em(20, $base_font-size);
+       font-weight: 500;
+       color: #EB5858;
+       margin-bottom: 4px;
+    }
+    &__mo {
+       font-size: em(12, $base_font-size);
+       font-weight: 700;
+       color: #EB5858;
+       margin-bottom: 4px;
+    }
+    &__attr {
+
+    }
+    &__title {
+        margin-bottom: 8px;
+        font-size: em(14, $base_font-size);
+        font-weight: 500;
+        color: #333;
+        line-height: 1.5;
+    }
+    &__time {
+        // margin-bottom: 8px;
+        font-size: em(14, $base_font-size);
+        font-weight: 500;
+        color: #8899A6;
+    }
+}

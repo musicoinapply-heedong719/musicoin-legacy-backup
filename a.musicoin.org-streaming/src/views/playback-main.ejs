@@ -1,0 +1,79 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="wb:webmaster" content="388a22fbc545b0b0" />
+<link rel="stylesheet" href="/dependencies/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/dependencies/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/dependencies/jquery/css/jquery-ui.css">
+<link rel="stylesheet" href="/dependencies/messg-2.1.0/index.css">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet">
+<link rel="shortcut icon" href="/favicon.ico">
+
+<script src="/dependencies/jquery/js/jquery-3.1.1.js"></script>
+<script src="/dependencies/jquery/js/jquery-ui.js"></script>
+<script src="/dependencies/bootstrap/js/bootstrap.min.js"></script>
+<script src="/dependencies/messg-2.1.0/index.js"></script>
+<script src="/dependencies/prefixfree/prefixfree.min.js"></script>
+
+<link rel="stylesheet" href="/styles/shared-style.css">
+<link rel="stylesheet" href="/styles/like.css">
+<link rel="stylesheet" href="/styles/toggle.css">
+<link rel="stylesheet" href="/styles/modal.css">
+<link rel="stylesheet" href="/styles/tips.css">
+<link rel="stylesheet" href="/styles/play-queue.css">
+
+<script src="/js/dynamic-elements.js"></script>
+<script src="/js/musicoin.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/tips.js"></script>
+<script src="/js/following.js"></script>
+<script src="/js/track-messages.js"></script>
+<script src="/js/more.js"></script>
+<script src="/js/hero.js"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/format.js"></script>
+<script src="/js/auto-complete.js"></script>
+
+<h3 class="text-center" style="color: black">Playback History</h3>
+<table class="table table-responsive table-condensed table-striped" style="color: black">
+    <tr>
+        <th class="text-center">Time</th>
+        <th class="text-center">User</th>
+        <th class="text-center">Track</th>
+        <th class="text-center">Plays&nbsp;/&nbsp;Tips</th>
+    </tr>
+
+    <% for (var p = 0; p < playbacks.length; p++) {
+        var playback = playbacks[p];
+    %>
+    <tr id="<%= playback._id %>">
+        <td class="text-center middle">
+            <%= playback.playbackDateDisplay %><br>
+        </td>
+
+        <% if (playback.user != null) { %>
+        <td class="text-center middle">
+            <%= playback.user.draftProfile.artistName %><br>
+            <a target="track-window" href="/artist/<%= playback.user.profileAddress %>">view</a>
+        </td>
+        <% } else if (playback.anonymousUser != null) { %>
+        <td class="text-center middle">
+            <%= playback.anonymousUser.ip %><br>
+            <%= playback.anonymousUser.session %><br>
+        </td>
+        <% } else { %>
+        <td class="text-center middle"></td>
+        <% } %>
+
+        <td class="text-center middle">
+            <%= playback.release.title %>
+            <br>
+            <a target="release-window" href="/track/<%= playback.release.contractAddress %>">view</a>
+        </td>
+        <td class="text-center middle">
+            <%= playback.release.directPlayCount %> /
+            <%= playback.release.directTipCount || 0 %>
+        </td>
+    </tr>
+    <% } %>
+</table>
+</html>

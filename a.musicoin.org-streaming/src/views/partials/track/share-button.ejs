@@ -1,0 +1,67 @@
+<link rel="stylesheet" type="text/css" href="/styles/tab.css">
+<link rel="stylesheet" type="text/css" href="/styles/dialog.css">
+<link rel="stylesheet" type="text/css" href="/styles/share-track.css">
+<button class="share-button btn btn-default btn-xs" id="open-share-dialog">Share</button>
+
+<%
+  if (description) {
+    var shortDescription = description.length > 69 ? description.substring(0, 69) + '...' : description;
+  } else {
+    var shortDescription = 'Listen to this amazing song';
+  }
+ %>
+<div id="share-track-options-dialog" class="musicoin-dialog">
+  <div class="dialog-wrapper">
+    <!-- <div class="dialog-header"></div> -->
+    <div class="dialog-body">
+      <div class="musicoin-tab-root" id="share-options-tab">
+        <div class="tab-links-container">
+          <ul class="tab-links">
+            <li class="tab-link-item">
+              <a href="#social-network-sharing" class="tab-link">Share</a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-contents">
+          <div id='social-network-sharing'>
+            <div id="share-options-container">
+              <h5 id="share-options-header">Share on</h5>
+              <ul id="share-options">
+                <li class="share-option">
+                  <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/share?url=https://musicoin.org/track/<%=license.address%>&text=<%=shortDescription%>&utm_source=musicoin&utm_campaign=share&utm_medium=twitter" target="_blank">
+                  <span class="fa fa-twitter"></span>
+                </a>
+                </li>
+                <li class="share-option">
+                  <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://musicoin.org/track/<%=license.address%>&text=<%=shortDescription%>&utm_source=musicoin&utm_campaign=share&utm_medium=facebook" target="_blank">
+                  <span class="fa fa-facebook"></span>
+                </a>
+                </li>
+                <li class="share-option">
+                  <a class="btn btn-social-icon btn-tumblr" href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https://musicoin.org/track/<%=license.address%>&utm_source=musicoin&utm_campaign=share&utm_medium=tumblr&type=audio&tags=musicoin,music,<%=license.artistName%>,<%=license.title%>&caption=<%=shortDescription%>" target="_blank">
+                  <span class="fa fa-tumblr"></span>
+                </a>
+                </li>
+                <li class="share-option">
+                  <a class="btn btn-social-icon btn-google" href="https://plus.google.com/share?url=https://musicoin.org/track/<%=license.address%>&text=<%=shortDescription%>&utm_source=musicoin&utm_campaign=share&utm_medium=googleplus" target="_blank">
+                  <span class="fa fa-google"></span>
+                </a>
+                </li>
+                <li class="share-option">
+                  <a class="btn btn-social-icon btn-pinterest" href="http://pinterest.com/pin/create/button/?url=https://musicoin.org/track/<%=license.address%>&utm_source=musicoin&utm_campaign=share&utm_medium=pinterest&media=https://musicoin.org<%=license.image%>&description=<%=shortDescription%>&is_video=true" target="_blank">
+                  <span class="fa fa-pinterest"></span>
+                </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script> -->
+<script src="/js/musicoin.js"></script>
+<script src="/js/tab.js"></script>
+<script src="/js/dialog.js"></script>
+<script src="/js/share-track-component.js"></script>

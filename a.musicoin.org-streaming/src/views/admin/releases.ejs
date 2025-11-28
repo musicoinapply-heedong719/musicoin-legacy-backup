@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Musicoin Admin Dashboard Template</title>
+    <link rel="stylesheet" href="/dependencies/admin/css/admin.min.css">
+    <link rel="stylesheet" href="/dependencies/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/dependencies/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dependencies/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include admin-header.ejs %>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Dashboard v2</h1>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="https://musicoin.org/feed">Musicoin</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Dashboard v2</li>
+                                </ol>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <!-- Main content -->
+
+                <section class="content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Released</th>
+                                            <th>Artist</th>
+                                            <th>Plays&nbsp;/&nbsp;Tips</th>
+                                            <th>Abuse</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Released</th>
+                                            <th>Artist</th>
+                                            <th>Plays&nbsp;/&nbsp;Tips</th>
+                                            <th>Abuse</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.card -->
+            </div>
+            <!-- /.col -->
+    </div>
+
+    <!-- /.row -->
+    </section>
+    <!--/. container-fluid -->
+    <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    </div>
+    <script src="/dependencies/admin/js/jquery.min.js" type="text/javascript"></script>
+    <!-- Bootstrap -->
+    <script src="/dependencies/admin/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="/dependencies/admin/js/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="/dependencies/admin/js/dataTables.bootstrap4.js" type="text/javascript"></script>
+    <!-- AdminLTE App -->
+    <script src="/dependencies/admin/js/admin.js" type="text/javascript"></script>
+    <!-- PAGE PLUGINS -->
+    <!-- SparkLine -->
+    <script src="/dependencies/admin/js/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="/dependencies/admin/js/chart.min.js" type="text/javascript"></script>
+    <!-- End custom js for this page-->
+    <!-- ./wrapper -->
+    <%- include admin-footer.ejs %>
+        <!-- plugins:js -->
+
+        <script>
+            $(document).ready(function () {
+                $(function () {
+                    $("#example1").DataTable({
+                        "processing": true,
+                        "ajax": {
+                            "url": "/admin/elements/releases", "dataSrc": function (json) {
+                                var return_data = new Array();
+
+                                for (var i = 0; i < json.length; i++) {
+                                    var release = json[i];
+                                    var title = "";
+                                    var timeSince = "";
+                                    var user = "";
+                                    var artistName = "";
+                                    var directPlayCount = "";
+                                    var directTipCount = "";
+                                    var tip = "";
+                                    var markedAsAbuse = "";
+
+                                    title += '<td><a target=release href="/track/' + release.contractAddress + '">' + release.title + '</a></td>';
+                                    timeSince += release.releaseDate;
+                                    if (release.user) {
+                                        user += '<td><a target=artist href="/artist/' + release.artist.profileAddress + '">' + release.artist.draftProfile.artistName;
+                                        if (release.artistName !== release.artist.draftProfile.artistName) {
+                                            user += '(' + release.artistName + ')';
+                                        }
+                                        user += '</a>';
+                                    }
+                                    else {
+                                        user += '<td><a target=artist href="/artist/' + release.artistAddress + '">' + release.artistName + '</a> *';
+                                    }
+                                    user += '</td>';
+
+                                    markedAsAbuse += !!release.markedAsAbuse;
+
+                                    directPlayCount = release.directPlayCount || "0";
+                                    directTipCount += release.directTipCount || "0";
+
+                                    tip = '<td>' + directPlayCount + '/' +
+                                        directTipCount + '</td>';
+                                    return_data.push({
+                                        'title': title,
+                                        'timeSince': timeSince,
+                                        'user': user,
+                                        'tip': tip,
+                                        'markedAsAbuse': markedAsAbuse
+                                    });
+                                }
+                                return return_data;
+                            }
+                        },
+                        columns: [
+                            { 'data': 'title' },
+                            { 'data': 'timeSince' },
+                            { 'data': 'user' },
+                            { 'data': 'tip' },
+                            { 'data': 'markedAsAbuse' }
+                        ]
+                    });
+                });
+            });
+
+        </script>
+</body>
+
+</html>

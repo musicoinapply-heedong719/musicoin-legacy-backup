@@ -1,0 +1,3 @@
+run andoid emulator from cmd
+
+/Users/bengyles/Library/Android/sdk/tools/emulator -avd emulator -netdelay none -netspeed full

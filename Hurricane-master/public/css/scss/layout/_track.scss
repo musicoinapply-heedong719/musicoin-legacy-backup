@@ -1,0 +1,111 @@
+.track {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
+    border-bottom: 1px solid #E6ECF0;
+    p{
+        font-size: em(12, $base_font-size);
+    }
+    &:hover {
+        background-color: #E6ECF0;
+    }
+    &__left {
+        display: flex;
+        // background-color: green;
+    }
+    &__pic {
+        display: block;
+    }
+    &__pic-container {
+        position: relative;
+        &:hover .track__pic-overlay {
+            opacity: 1;
+        }
+    }
+    &__pic-overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        transition: .5s ease;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 2px;
+
+        .track__play {
+          color: white;
+          font-size: 20px;
+          position: absolute;
+          top: 55%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+    }
+    &__attr {
+        margin-left: 8px;
+        margin-right: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    &__title {
+        margin-bottom: 0px;
+        color: black;
+    }
+    &__artist {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-bottom: 0px;
+        font-size: em(14, $base_font-size);
+        color: #8899A6;
+    }
+    &__genre {
+        font-style: italic;
+        margin-left: 8px;
+        font-size: em(10, $base_font-size);
+        color: #8899A6;
+    }
+    &__right {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+    }
+    &__dot {
+        margin-right: 10px;
+        margin-left: 10px;
+        align-self: center;
+        // background-color: red;
+        //align-self: center;
+        //margin-bottom: 30px;
+    }
+    &__stats {
+        display: flex;
+        align-self: center;
+        width: 70px;
+        & > img {
+            height: 12px;
+            margin-top: 1px;
+
+            &.tips {
+                margin-left: 16px;
+            }
+        }
+        & > p {
+            font-size: em(12, $base_font-size);
+            color: #8899A6;
+        }
+
+        .track__tips, .track__like {
+            margin-left: 4px;
+            font-size: em(12, $base_font-size);
+            color: #8899A6;
+        }
+    }
+}

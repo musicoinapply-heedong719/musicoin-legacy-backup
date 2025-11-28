@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<%
+if (typeof message == "undefined") message = "";
+if (message.length > 0) message = `<div class=alert role=alert style=color:#ffffff;background-color:#FFAF00;border-color:#FFAF00;font-family:Ubuntu;font-size:14px;font-weight:300;width:296px;margin-left:auto;margin-right:auto;>` + message + `</div>`;
+%>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<%- include('../partials/track/track-card-metadata.ejs') %>
+<%- include('../partials/track/artist-card-metadata.ejs') %>
+<title><%=license.title%> by <%=license.artistName%></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="wb:webmaster" content="388a22fbc545b0b0" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.10.1/hls.min.js" integrity="sha256-kUDqIYft9ZexoU7ZeHzJnhr32kjQO3KQAYmeUAMIru8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.fluidplayer.com/2.4.3/fluidplayer.min.css" integrity="sha384-g1yapoMx0MoHvSIMPfhfqCGduACB+vvNr9TadJCbfCyNLZS8dp5q5wsz/3KXzhj2" crossorigin="anonymous">
+<script src="https://cdn.fluidplayer.com/2.4.3/fluidplayer.min.js" integrity="sha384-M5Ue8PHFvCQnN6Uf3ZM9S4U/K/JLse0z7ZV7n5ufwscez8qTlB5wSHC4vctILRwU" crossorigin="anonymous"></script>
+<style>
+video {
+    position: fixed; right: 0; bottom: 0;
+    min-width: 100%; min-height: 90%;
+    width: auto; height: auto; z-index: -100;
+}
+</style>
+<link rel="shortcut icon" href="/favicon.ico">
+<video id='hls-video'><source src='<%=trackAddress%>' type='application/x-mpegURL'/></video>
+                  <script>
+                  fluidPlayer(
+                      'hls-video',
+                      {
+                          layoutControls: {
+                              posterImage: '<%=license.image%>',
+                              primaryColor: "#FFAF00",
+                              playbackRateEnabled: true,
+                              fillToContainer: false
+                          }
+                      }
+                  );
+</script>
+<h2>You can press "F" for fullscreen mode.</h2>
+</body>
+</html>

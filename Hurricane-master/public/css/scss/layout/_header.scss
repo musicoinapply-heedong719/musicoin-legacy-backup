@@ -1,0 +1,40 @@
+#header {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 32px 0;
+    background-color: #fff;
+    width: 100%;
+    height: 64px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-left {
+
+    }
+
+    &-middle {
+        .user__count {
+            font-size: em(20, $base_font-size);
+            font-weight: bold;
+            color: #333;
+
+            >span {
+                 color: #F3921B;
+            }
+        }
+    }
+
+    &-right {
+        .header__menu {
+            display: flex;
+            justify-content: space-between;
+            li {
+                margin-left: 16px;
+            }
+        }
+    }
+}

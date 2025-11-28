@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+    <%- include('partials/page-head.ejs') %>
+    <title>Musicoin</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #eee;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .home_icon {
+            height: 80px;
+        }
+        .free-play-count {
+            font-size: 72px;
+            line-height: 0.9;
+            text-align: center;
+            margin-top: 20px;
+            color: #e4aa17;
+        }
+
+        .dismiss-notice {
+            top: -1.4rem;
+            right: -2.2rem;
+            font-size: 3.4rem;
+        }
+
+        .release-image {
+          width: 100px;
+          height: 100px;
+        }
+
+    </style>
+    <link rel="stylesheet" href="/styles/track-message.css">
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <%- include('partials/hero.ejs', { display: !minimizeHeroInFeed }) %>
+    <% var senderClass = user.mostRecentReleaseDate ? "sender-image-artist" : "sender-image" %>
+
+    <div class="columns-2-to-1 white-well box-shadow-top" style="background-color: black">
+        <div class="col1" style="background: #fff;margin: 10px -5px 10px 0px;border-radius: 5px; padding-top: 30px">
+        <div role="alert" class="alert alert-info" style="font-size:13px; text-align:center; background-color:#f0a848;color:#ffffff;border-color: #fa0;">
+        <strong>Musicoin makes an addition to PPP protocol to ensure most competitive royalty rates</strong><br><br> The Musicoin project is pleased to inform our community that we will continue to give our artists the highest rates in the industry.<br>
+        It is our desire to always offer much better pay rates for streaming than what current industry rates are.<br> 
+        Due to current coin price value, as our PPP protocol pays one Musicoin for each stream, we will add additional compensation for each stream when coin market price is below 0.011 USD, which will ensure that every stream is paid 0.011 USD.<br>
+        As soon the coin price reaches 0.011 USD pay rate will automatically go back to 1 Musicoin per stream.
+        </div>
+            <div class="flex-row event-header mr10" style="justify-content: space-between; margin-right: 40px">
+                <div class="big-screen-only"></div>
+                <div>
+                    <i style="color: white"class="fa fa-comments subtle-text text-default mr10" aria-hidden="true"></i>My&nbsp;Feed
+                </div>
+                <!--
+                <% if (typeof showFeedPlayAll != "undefined" && showFeedPlayAll) { %>
+                <div class="btn btn-success play-list pad5 party-mode-button"
+                     target="de-track-messages"
+                     shuffle="true"
+                     title="Plays all tracks in your feed">
+                    <i class="fa fa-play text-large mr5 text-default" aria-hidden="true"></i> PARTY MODE
+                </div>
+                <% } else { %>
+                <% } %>
+                -->
+                <div></div>
+            </div>
+
+            <% if ((user.verified != true) && (user.mostRecentReleaseDate != null)) { %>
+                <div class="alert alert-danger alert-dismissible show" role="alert">
+                    <button type="button" class="close dismiss-notice" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>
+                        You have not been verified as a musician and hence can not upload songs. If you want to verify your status as a musician please follow <a href="https://forum.musicoin.org/topic/479/what-should-i-do-to-increase-the-chances-for-verification-of-my-profile">this basic guide</a> in order to show us as much proof as you can so that we may recognize you as a musician and verify your profile. If you wish to dspute your claim of not being verified, please send an email to <a href="mailto:reviewers@musicoin.org">reviewers@musicoin.org</a> with your name and artist profile id.
+                    </p>
+                </div>
+            <% } %>
+
+            <div class="post-area mb10 flex-row" style="border-bottom: 1px solid #eee">
+                <a href="/artist/<%=user.profileAddress%>"><div style="background-image: url('<%=user.profile.image%>')" class="<%=senderClass%>"></div></a>
+                <textarea class="general-post" target="de-track-messages" placeholder="What's on your mind now? You can now compose a post in markdown!"></textarea>
+            </div>
+
+            <div class="flex-row" style="justify-content: center">
+                <div class="dropdown">
+                    <div class="dropdown-toggle clickable btn btn-default" type="button" data-toggle="dropdown"><i class="fa fa-filter" aria-hidden="true"></i>  Filter By<i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <%
+                        var types = [
+                            {value: "release", name: "New releases"},
+                            {value: "comment", name: "Comments"},
+                            {value: "donate", name: "Donations"},
+                            {value: "follow", name: "New connections"},
+                            {value: "tip", name: "Tips"}]
+                        for (var idx=0; idx < types.length; idx++) {
+                          var type = types[idx];
+                          var checked = messageTypes.indexOf(type.value) >= 0;
+                        %>
+                        <li style="padding-left: 5px">
+                            <label class="clickable" style="text-transform: none; text-wrap: none">
+                                <input title="test" type="checkbox" class="de-parameter-checkbox clickable"
+                                   <%- checked ? "checked" : "" %>
+                                   de-checkbox-group="messagetypes"
+                                   de-value="<%=type.value%>"
+                                   de-target="de-track-messages">
+                                <%=type.name%>
+                            </label>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dynamic-element message-scroller"
+                 data-behavior="chat-message-area"
+                 style="min-height: 180px"
+                 id="de-track-messages"
+                 de-refresh-period="20"
+                 de-refresh-offset="20"
+                 de-showtrack="true"
+                 de-messagetypes="<%=messageTypes.join('|')%>"
+                 de-limit="<%= ui.newMessages %>",
+                 de-nocontent="You're not following anyone"
+                 de-url="/elements/feed">
+                <%- include('partials/track/track-messages.ejs', {messages: messages, showTrack: true, noContentMessage: "You're not following anyone"}) %>
+            </div>
+        </div>
+
+        <div class="pad10 col2" style="background-color: #fff;margin: 10px 0px 10px 0px; padding-top: 30px">
+            <%- include('partials/mini-hero.ejs', { display: minimizeHeroInFeed }) %>
+
+            <% if (typeof recentlyPlayed != "undefined" && recentlyPlayed.length > 0) { %>
+            <div class="mb10">
+                <div class="event-header text-center subtle-text">
+                    My Plays
+                    <div>
+                    <!--
+                        <div class="btn btn-success party-button play-list pad5 play-all-button"
+                             target="recentlyPlayed"
+                             title="Play recently played tracks"
+                             style="border-color: white; background: #e65c00; background: -webkit-linear-gradient(to right, #F9D423, #e65c00); background: linear-gradient(to right, #F9D423, #e65c00);"
+                          >
+                            <i class="fa fa-play text-large mr5 text-default" aria-hidden="true" style="color: white !important; visibility: hidden"></i>PLAY ALL
+                        </div>
+                    -->
+                    </div>
+
+                </div>
+
+                <div class="dynamic-element"
+                     id="recentlyPlayed"
+                     de-limit="<%=ui.myPlays%>"
+                     de-start=0
+                     de-url="/elements/user-recently-played"
+                     de-elementId="recentlyPlayedItems">
+                    <%- include('partials/release-events.ejs', {releases: recentlyPlayed, elementId: "recentlyPlayedItems"}) %>
+                </div>
+                <div class="center-text">
+                    <div class="btn btn-link"
+                         onclick="$('#recentlyPlayed').attr('de-start', parseInt($('#recentlyPlayed').attr('de-start'))+parseInt($('#recentlyPlayed').attr('de-limit'))); dynamic.appendToElement($('#recentlyPlayed'), 'recentlyPlayedItems'); ">
+                        show more <span class="fa fa-chevron-down"></span>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <% if (typeof topTippedLastWeek != "undefined") { %>
+                <%- include('partials/top-release-chart.ejs', {releases: topTippedLastWeek, title: "Top Tipped", elementEndpoint: "top-tipped-period"}) %>
+            <% } %>
+
+            <% if (typeof topPlayedLastWeek != "undefined") { %>
+                <%- include('partials/top-release-chart.ejs', {releases: topPlayedLastWeek, title: "Top Played", elementEndpoint: "top-played-period"}) %>
+            <% } %>
+        </div>
+    </div>
+    <script>
+      function refreshMessageList() {
+        dynamic.refreshElement($("#de-track-messages"));
+      }
+    </script>
+    <%- include('partials/connect-with-us.ejs') %>
+</body>
+</html>

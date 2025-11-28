@@ -1,0 +1,19 @@
+{
+    "nodeAddr":     "localhost",
+    "gethPort":     8545,
+    "startBlock":   0,
+    "endBlock":     "latest",
+    "quiet":        true,
+    "syncAll":      true,
+    "patch":        true,
+    "patchBlocks":  100,
+    "settings": {
+        "symbol": "MUSIC",
+        "name": "MUSIC",
+        "title": "MUSIC Block Explorer",
+        "author": "Gy9vin",
+        "github": "https://github.com/musicoin",
+        "twitter": "https://twitter.com/musicoins",
+        "copyright": "2018 © MUSIC"
+    }
+}

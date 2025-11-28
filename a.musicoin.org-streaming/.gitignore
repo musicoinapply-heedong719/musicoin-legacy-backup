@@ -1,0 +1,7 @@
+/logs
+/.idea
+/Email-Verification
+/node_modules
+.DS_Store
+*.map
+src/overview/*

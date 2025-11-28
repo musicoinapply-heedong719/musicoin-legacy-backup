@@ -1,0 +1,7 @@
+{
+  "codeFile": "solidity/mvp5/PayPerPlay.sol.bin",
+  "abiFile": "solidity/mvp5/PayPerPlay.sol.abi",
+  "deploymentGas": 4700000,
+  "type": "ppp",
+  "version": "v0.5"
+}

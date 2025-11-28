@@ -1,0 +1,24 @@
+type Query {
+    search(keyword: String,limit: Int!): Search
+},
+type Artist {
+  name: String,
+  profileAddress: String,
+  releaseCount: Int!
+},
+type Release {
+  title: String,
+  link: String,
+  pppLink: String,
+  genres: [String],
+  author: String,
+  authorLink: String,
+  trackImg: String,
+  trackDescription: String,
+  directTipCount: Int!,
+  directPlayCount: Int!
+},
+type Search {
+  artists: [Artist],
+  releases: [Release]
+}

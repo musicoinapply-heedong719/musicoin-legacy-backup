@@ -1,0 +1,31 @@
+.aow {
+   &__attr {
+       padding: 8px 16px;
+       display: flex;
+       border-bottom: 1px solid #E6ECF0;
+
+       &-text {
+           margin-left: 8px;
+       }
+
+       &-track {
+           font-size: em(14, $base_font-size);
+           margin-bottom: 2px;
+       }
+       &-artist {
+           font-size: em(12, $base_font-size);
+           color: #8899A6;
+       }
+   }
+
+   &__pic {
+       width: 100%;
+       height: 144px;
+       background-color: #e9e9e9;    
+   }
+   &__pic-file {
+       width: 100%;
+       height: 144px;
+       object-fit: cover;
+   }
+}

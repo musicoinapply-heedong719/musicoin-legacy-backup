@@ -1,0 +1,51 @@
+{
+  "transactionHash": "0x4e3bd29b3c01407c129f924101240a08a9617e0e7f2270b93ad4326e8aa97eff",
+  "eventType": "play",
+  "from": "0x1269f9bd6aa7d3a4ab4db83dda2a439c1ef06ecd",
+  "to": "0x4d755278abce9af8439a3d8216c05f6e749cccd5",
+  "license": {
+    "resourceUrl": "ipfs://QmVQuJ1PGyrh4VdN5yqxukWabzGkRzxF3BmPTgueUmNkUw",
+    "totalShares": "1",
+    "licenseVersion": "1",
+    "metadataVersion": "0",
+    "totalEarned": "151000000000000000000",
+    "workAddress": "0x89679087c4cd317ba4f67e841af646c036db0a78",
+    "owner": "0x6cf4e1d23f69d9a7df1e3e8b3f7f674c7c93a1fd",
+    "playCount": "116",
+    "contractVersion": "v0.2",
+    "weiPerPlay": "1000000000000000000",
+    "totalTipped": "35000000000000000000",
+    "metadataUrl": "ipfs://QmNX8RAxz2hk5nUgjhVmMJCsvUGiESQ16netc7Yv4hs7Lz",
+    "tipCount": "35",
+    "contributors": [
+      {
+        "address": "0x6cf4e1d23f69d9a7df1e3e8b3f7f674c7c93a1fd",
+        "shares": "1"
+      }
+    ],
+    "royalties": [],
+    "coinsPerPlay": "1",
+    "address": "0x4d755278abce9af8439a3d8216c05f6e749cccd5",
+    "artist": "Lobo Loco",
+    "title": "Indian Summer",
+    "workType": "0",
+    "imageUrl": "ipfs://QmVB2rsq9iEUjKf1ZfonaUsUkhGLDjZFzb4keSftmeMoFb",
+    "logger": "0x1ba9842b9f4886837edff6d2286342c47ad8085a",
+    "image": "/ipfs/QmVB2rsq9iEUjKf1ZfonaUsUkhGLDjZFzb4keSftmeMoFb"
+  },
+  "artistProfile": {
+    "descriptionUrl": "ipfs://QmULYSzrNHGrraZ5GZkXfxSPuQkgodjGBGKLWmvCDkzcPK",
+    "artistName": "Lobo Loco",
+    "owner": "0xd194c585c559684939a1bf1d31cddc40017ac9d4",
+    "imageUrl": "ipfs://QmVB2rsq9iEUjKf1ZfonaUsUkhGLDjZFzb4keSftmeMoFb",
+    "followers": "0",
+    "socialUrl": "ipfs://QmfQVt21DVFZBdHTZyvVYfw7pGL9YXsyYAoYLWHbEmwqCU",
+    "tipTotal": "0",
+    "tipCount": "0",
+    "description": "This is Lobo Loco!",
+    "social": {
+      "twitter": "https://twitter.com/loboloco"
+    },
+    "image": "/ipfs/QmVB2rsq9iEUjKf1ZfonaUsUkhGLDjZFzb4keSftmeMoFb"
+  }
+}

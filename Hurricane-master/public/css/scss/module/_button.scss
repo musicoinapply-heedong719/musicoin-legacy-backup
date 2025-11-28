@@ -1,0 +1,60 @@
+.btn {
+  // color: #fff;
+  border: 1px solid;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: em(14, $base_font-size);
+  font-weight: 500;
+  box-sizing: border-box;
+
+  &.btn-lg {
+    padding: 12px 36px;
+    font-size: em(16, $base_font-size);
+  }
+}
+
+
+.btn-brand {
+  background-color: $color_brand;
+  color: $color_subheading;
+
+  &:hover {
+    background-color: #f2c300;
+  }
+}
+
+.btn-primary {
+  background-color: $color_brand;
+  color: #0F1012;
+  border-color: $color_brand;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #8899A6;
+  border-color: #8899A6;
+}
+
+.btn-info {
+  background-color: $color_blue_sky;
+}
+
+.btn-info-2 {
+  background-color: $color_blue_light;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.btn-success {
+  background-color: $color_green;
+}
+
+.btn-warning {
+  background-color: $color_orange;
+}
+
+.btn-link {
+  color: $color_link;
+}

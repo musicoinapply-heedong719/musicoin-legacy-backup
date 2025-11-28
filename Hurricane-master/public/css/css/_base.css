@@ -1,0 +1,11 @@
+html, body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  background: #fff; }
+
+ul, li {
+  list-style-type: none; }
+
+@font-face {
+  font-family: "Bariol";
+  src: url("../fonts/bariol_regular-webfont.woff"); }

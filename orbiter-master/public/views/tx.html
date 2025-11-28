@@ -1,0 +1,36 @@
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+  <div class="col-md-12 portlet light">
+      <div class="portlet-body">
+
+        <table class="col-md-6 table table-hover">
+
+          <tr ><td width="25%">hash</td><td>{{tx.hash}} </span></td></tr>
+          <tr ><td width="25%">blockNumber</td>
+                <td><a href="/block/{{tx.blockNumber}}">{{tx.blockNumber}}</a></td>
+          </tr>
+          <tr ><td width="25%">Time</td>
+                <td>{{tx.datetime | date:'yyyy-MM-dd HH:mm:ss Z' }} ({{tx.timestamp | timeDuration}} ago)</td>
+          </tr>
+          <tr ><td width="25%">from</td>
+                <td><a href="/addr/{{tx.from}}">{{tx.from}}</a></td></tr>
+          <tr ><td width="25%">to </td>
+                <td><a href="/addr/{{tx.to}}">{{tx.to}}</a>  <span style="color:black" ng-show="tx.creates">(contract created)</span>
+                </td></tr>
+          <tr ng-repeat="item in tx.itx">
+              <td width="25%"> </td>
+              <td>
+                  &nbsp;&nbsp;&nbsp;&nbsp; <small><img src="/img/end-node.gif"> </a><a href="/addr/{{item.action.to}}">{{item.action.to}}</a> ({{item.action.value}} MC)</small>
+              </td>
+          </tr>
+
+          <tr ><td width="25%">value</td><td>{{tx.value}} <img src="/img/coin24x24.png"></td></tr>
+          <tr ><td width="25%">gas used</td><td> {{tx.gasUsed}}/{{tx.gas}} <span style="color:red" ng-show="tx.gas===tx.gasUsed">(?)</td></tr>
+          <tr ><td width="25%">gasPrice</td><td>{{tx.gasPrice}}</td></tr>
+          <tr ><td width="25%">nonce</td><td>{{tx.nonce}}</td></tr>
+          <tr ><td width="25%">Input Data</td><td><pre class="code">{{tx.input}}</pre></td></tr>
+        </table>
+    </div>
+
+  </div>
+</div>

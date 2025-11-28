@@ -1,0 +1,616 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Musicoin</title>
+  <%- include('partials/page-head.ejs') %>
+  <%- include('partials/track/track-card-metadata.ejs') %>
+  <%- include('partials/track/artist-card-metadata.ejs') %>
+
+        <link rel="stylesheet" href="/dependencies/bootstrap-social.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.10.1/hls.min.js" integrity="sha256-kUDqIYft9ZexoU7ZeHzJnhr32kjQO3KQAYmeUAMIru8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.fluidplayer.com/2.4.3/fluidplayer.min.css" integrity="sha384-g1yapoMx0MoHvSIMPfhfqCGduACB+vvNr9TadJCbfCyNLZS8dp5q5wsz/3KXzhj2" crossorigin="anonymous">
+        <script src="https://cdn.fluidplayer.com/2.4.3/fluidplayer.min.js" integrity="sha384-M5Ue8PHFvCQnN6Uf3ZM9S4U/K/JLse0z7ZV7n5ufwscez8qTlB5wSHC4vctILRwU" crossorigin="anonymous"></script>
+        <meta name="keywords" content="Musicoin, Music, Blockchain, Crypto, Cryptocurrency">
+        <meta name="description" content="Musicoin, revolutionizing the music industry with the help of the blockchain">
+        <meta name="robots" content="index,follow,noodp,noydir">
+        <meta name="allow-search" content="yes">
+        <meta name="language" content="en">
+        <meta name="distribution" content="global">
+
+        <style>
+          #mainSection {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+          }
+
+          #outer {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+
+          body {
+            word-wrap: break-word;
+            background-size: cover;
+            margin-left: 5px;
+            margin-right: 5px;
+            background-image: url('<%=license.image%>');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+          }
+
+          #chat-input {
+            color: black;
+          }
+
+          .track-artist-badge {
+            justify-content: flex-start;
+          }
+
+          .track-artist-badge-area {
+            width: 254px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 0;
+          }
+
+          .white-well.track-info-area {
+            background-color: white;
+          }
+
+          .track-tag {
+            border-radius: 5px;
+            padding: 5px;
+            margin: 2px;
+            white-space: nowrap;
+            color: #fff;
+          }
+
+          .genre-tag,
+          a.genre-tag:hover {
+            background-color: #FF6400;
+          }
+
+          .language-tag,
+          a.language-tag:hover {
+            background-color: #619dc2;
+          }
+
+          .region-tag,
+          a.region-tag:hover {
+            background-color: #00B2FF;
+          }
+
+          .mood-tag,
+          a.mood-tag:hover {
+            background-color: #619dc2;
+          }
+
+          .show-on-edit {
+            /*visibility: hidden;*/
+          }
+
+          .album {
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.65);
+            height: 256px;
+            margin-left: 10px;
+            margin-top: 27px;
+            position: relative;
+            width: 256px;
+            z-index: 10;
+          }
+
+          .album-art {
+            /* background: #fff url("<%=license.image%>") center/cover no-repeat; */
+            background: #fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/83141/incubus-make-yourself.jpg") center/cover no-repeat;
+            height: 256px;
+            position: relative;
+            width: 256px;
+            z-index: 10;
+          }
+
+          .vinyl {
+            -webkit-animation: spin 2s linear infinite;
+            -moz-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+            -webkit-transition: all 500ms;
+            -moz-transition: all 500ms;
+            transition: all 500ms;
+            background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/83141/vinyl.png"), url("<%=license.image%>");
+            background-position: center, center;
+            background-size: cover, 40% auto;
+            background-repeat: no-repeat;
+            border-radius: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            height: 240px;
+            left: 0;
+            position: absolute;
+            top: 5px;
+            width: 240px;
+            z-index: 5;
+            will-change: transform, left;
+          }
+
+          .is-playing .vinyl {
+            left: 52%;
+          }
+
+          [class^="control-"] {
+            -webkit-filter: brightness(95%);
+            filter: brightness(95%);
+            border-radius: 100%;
+            display: inline-block;
+            height: 44px;
+            margin: 3px;
+            width: 44px;
+          }
+
+          [class^="control-"]:hover {
+            -webkit-filter: brightness(85%);
+            filter: brightness(85%);
+            cursor: pointer;
+          }
+
+          .control-play {
+            position: absolute;
+            top: 100px;
+          }
+
+          @-webkit-keyframes spin {
+            0% {
+              -webkit-transform: rotate(0deg);
+            }
+            100% {
+              -webkit-transform: rotate(360deg);
+            }
+          }
+
+          @-moz-keyframes spin {
+            0% {
+              -moz-transform: rotate(0deg);
+            }
+            100% {
+              -moz-transform: rotate(360deg);
+            }
+          }
+
+          @keyframes spin {
+            0% {
+              -webkit-transform: rotate(0deg);
+              -moz-transform: rotate(0deg);
+              -ms-transform: rotate(0deg);
+              -o-transform: rotate(0deg);
+              transform: rotate(0deg);
+            }
+            100% {
+              -webkit-transform: rotate(360deg);
+              -moz-transform: rotate(360deg);
+              -ms-transform: rotate(360deg);
+              -o-transform: rotate(360deg);
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+        <link rel="stylesheet" href="/styles/track-message.css">
+        <link rel="stylesheet" href="/styles/vote.css">
+</head>
+
+<body>
+  <div id="outer">
+    <div id=mainSection>
+
+
+      <%- include('partials/header.ejs') %>
+
+        <%
+    function formatNumber(value) {
+        if (!value || value == 0) return 0;
+        if (value < 1) return parseFloat(value).toFixed(1);
+        const lookup = ["", "k", "M", "B", "T"];
+        var order = Math.min(Math.floor(Math.log10(value) / 3), lookup.length - 1);
+        var mult = value / Math.pow(10, 3 * order);
+        var decimals = order > 0 ? 1 : 0;
+        return mult.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + lookup[order];
+    }
+
+    var twitterHandle = license.artistName; // default, just use artist name (without @-prefix, so not a twitter handle)
+    if (artist && artist.social && artist.social.twitter) {
+      var twitterUrl = artist.social.twitter;
+      if (twitterUrl.endsWith('/')) {
+        twitterUrl = twitterUrl.substring(0, twitterUrl.length - 1);
+      }
+      var idx = twitterUrl.lastIndexOf('/');
+      if (idx >= 0 && idx < twitterUrl.length-1) {
+          twitterHandle = "@" + twitterUrl.substring(twitterUrl.lastIndexOf('/')+1, twitterUrl.length);
+      }
+      else if (twitterUrl.trim().length > 1) {
+          twitterHandle = "@" + twitterUrl.trim();
+      }
+    }
+ %>
+
+          <div class="container">
+            <h2>
+              <%=license.title%> by
+                <% if (artist.verified) { %>
+                  <b style="color: green">
+                    <% } else { %>
+                      <b style="color: red">
+                        <% } %>
+                          <a href="/artist/<%=license.artistProfileAddress%>" style="color: inherit !important">
+                            <%=license.artistName%>
+                          </a>
+                      </b>
+
+                      <% if (!isArtist) { %>
+                        <div id="follow1" class="follow-toggle-button btn btn-default btn-xs mr10" user="<%=artist.id%>" licenseAddress="<%=license.address%>"
+                          text-following="Following" class-following="btn-success" text-not-following="Follow" class-not-following="btn-default"
+                          onclick="$('#follow1').css('visibility', 'hidden')" style="margin-left: 15px;margin-right: 15px;">
+                          Follow
+                        </div>
+                        <% } %>
+
+                          <%- include('partials/track/share-button.ejs') %>
+
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Check out '<%=license.title%>' by <%=twitterHandle%> on $MUSIC #blockchain"
+                              data-url="https://musicoin.org/track/<%=license.address%>" data-show-count="true">Tweet</a>
+                            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </h2>
+            <div class="row">
+              <div class="col-sm-5 flex-column mb20">
+                <div class="well white-well track-info-area">
+                  <div class="flex-column center-text">
+                            <% if ((artist.verified) || (isAuthenticated && user.verified)) { %>
+                              <video id='hls-video'>
+                      <source src='<%=trackAddress%>' type='application/x-mpegURL'/>
+                  </video>
+                  <script>
+                  fluidPlayer(
+                      'hls-video',
+                      {
+                          layoutControls: {
+                              posterImage: '<%=license.image%>',
+                              primaryColor: "#FFAF00",
+                              playbackRateEnabled: true
+                          }
+                      }
+                  );
+                  </script>
+                              </div>
+                              <% } %>
+                    <br><table class="mb5" style="width: 100%">
+                      <tr>
+                        <td align="center" class="pr5">
+                          <div class="dynamic-data" data-behavior="track-earnings" de-refresh-period="20" de-releaseId="<%=releaseId%>" de-url="/json-api/track/earnings/">
+                            <div class="subtle-text" style="position:relative; top:-5px">
+                              <b>
+                                <span data-behavior="track-plays">
+                                  <%=formatNumber(license.directPlayCount)%>
+                                </span>
+                              </b> PPP &
+                              <b>
+                                <span data-behavior="track-tips">
+                                  <%=formatNumber(license.directTipCount)%>
+                                </span>
+                              </b> Tips</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" class="pr5 subtle-text">
+                          <div class="btn-group">
+                            <button type="button" class="tip-button btn btn-success" title="Tip 10 MC" recipient="<%=license.address%>" amount="10" context-type="Release"
+                              text-success="Thanks! :)" text-fail=":(" text-default="Tip 10 MC">
+                              Tip 10 MC
+                            </button>
+                            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false">
+                              <span class="sr-only">Toggle Dropdown</span>
+                              <li class="fa fa-sort-desc"></li>
+                            </button>
+                            <ul class="dropdown-menu tip-options">
+                              <%
+                                        var amounts = [1, 25, 50, 100, 250, 500, 1000];
+                                        for (var i=0; i < amounts.length; i++) {
+                                            var amount = amounts[i];
+                                            var message = amount > 1 ? "Are you sure you want to tip " + amount + " coins?" : "";
+                                        %>
+                                <li class="tip-button" recipient="<%=license.address%>" amount="<%=amount%>" context-type="Release" text-success="Thanks! :)"
+                                  confirm-message="<%=message%>" text-fail=":(" text-default="<%=amount%> MC">
+                                  <%=amount%> MC
+                                </li>
+                                <% } %>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left">
+                          <div class="mt20">Genres</div>
+                          <div class="m5 flex-row" style="flex-wrap: wrap">
+                            <%- include('partials/track/tag-list.ejs', { tags: license.genres, tagType: "genre", "tagClass": "genre-tag" }) %>
+                          </div>
+
+                          <div class="mt20">Tags</div>
+                          <div class="m5 flex-row" style="flex-wrap: wrap">
+                            <%- include('partials/track/tag-list.ejs', { tags: license.languages, tagType: "search", "tagClass": "language-tag" }) %>
+                              <%- include('partials/track/tag-list.ejs', { tags: license.moods, tagType: "search", "tagClass": "mood-tag" }) %>
+                                <%- include('partials/track/tag-list.ejs', { tags: license.regions, tagType: "search", "tagClass": "region-tag" }) %>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left">
+                          <div class="clickable trackDetails mt20 text-info" onclick="$('.trackDetails').toggle()">
+                            License Details
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                          </div>
+                          <div class="trackDetails clickable mt20 text-info" style="display: none" onclick="$('.trackDetails').toggle()">
+                            Hide Details
+                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                          </div>
+                          <div class="trackDetails mt10" style="display: none">
+                            <table>
+                              <tr>
+                                <td align="right">
+                                  <strong>Released</strong>
+                                </td>
+                                <td style="padding-left: 10px">
+                                  <%=license.timeSince%>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="right">
+                                  <strong>License</strong>
+                                </td>
+                                <td style="padding-left: 10px">
+                                  <a href="javascript:void(0)" onclick="modalUtils.showModal('thread-modal', '/license/view/', {address: '<%=license.address%>', hideButtonBar: true})">
+                                    PPP (Pay Per Play)
+                                  </a>
+
+                                </td>
+                              </tr>
+                            </table>
+
+                            <div class="mt20">
+                              <strong>Payment Distribution</strong>
+                            </div>
+                            <table class="table">
+                              <% for (var c=0; c < contributors.length; c++) {
+                                            var contributor = contributors[c];
+                                            var url = contributor.type == "artist"
+                                                    ? "/artist/" + contributor.address
+                                                    :  contributor.type == "license"
+                                                            ? "/track/" + contributor.address
+                                                            : "https://explorer.musicoin.org/account/" + contributor.address;
+                                            var name = contributor.type == "artist" || contributor.type == "license"
+                                                    ? contributor.alternateAddress
+                                                    : "Unregistered address";
+                                        %>
+                                <tr>
+                                  <td>
+                                    <a target="_blank" href="<%=url%>">
+                                      <%=name%>
+                                    </a>
+                                  </td>
+                                  <td>
+                                    <%=contributor.percentage%>%</td>
+                                </tr>
+                                <% } %>
+                            </table>
+
+                            <% if (isArtist) { %>
+                              <div class="subtle-text">Only visible to you, the artist</div>
+                              <div class="btn btn-warning" onclick='editRelease("<%=license.address%>")'>
+                                <span class="fa fa-pencil"></span> Edit</div>
+                              <% } %>
+                          </div>
+                        </td>
+                      </tr>
+                      <% if (!isArtist && !license.markedAsAbuse) { %>
+                        <tr>
+                          <td class="mt10">
+                            <div class="mt10"></div>
+
+                          </td>
+                        </tr>
+                        <% } %>
+                    </table>
+
+                    <% if (typeof isAdmin != "undefined" && isAdmin) { %>
+
+                      <div class="alert alert-danger mt20">
+                        <div>Admin Tools</div>
+                        <div class="center-text">
+                          <% if (!license.markedAsAbuse) { %>
+                            <div class="promote-hero-track btn btn-success btn-sm mr10" address="<%=license.address%>">
+                              Set as Artist of the Week
+                            </div>
+                            <% } %>
+                              <div class="mark-track-as-abuse btn btn-sm <%=license.markedAsAbuse ? " btn-success " : "btn-danger "%>" abuse="<%=license.markedAsAbuse%>"
+                                address="<%=license.address%>">
+                                <%= license.markedAsAbuse ? "Mark as ok" : "Mark as abuse"%>
+                              </div>
+                        </div>
+                      </div>
+                      <%}%>
+                  </div>
+                  <div class="flex-column mb20 <%= isArtist ? " private-view " : " "%>">
+                    <p></p>
+                    <blockquote class="track-description-header">
+                      <%=description%>
+                        <div class="button-bar">
+                          -
+                          <%=license.artistName%>
+                        </div>
+                    </blockquote>
+                  </div>
+                </div>
+                <div class="col-sm-7 chat-area">
+                <div class="chat-input-area">
+                  <% if ((isAuthenticated) && (user.profileAddress)) {%>
+                    <div class="chat-input">
+                      <input id="chat-input" maxlength="1000" placeholder="Say something about '<%=license.title%>' by '<%=license.artistName%>'">
+                    </div>
+                    <% } else if (isAuthenticated) { %>
+                      <div class="text-warning text-center">You can join the conversation after you save your
+                        <a href="/profile">profile</a>
+                      </div>
+                      <% } else { %>
+                        <div class="text-warning text-center">You can join the conversation after you
+                          <a href="/welcome" target="_top">sign in</a>
+                        </div>
+                        <% } %>
+                </div>
+                <div class="alert alert-danger abuse-alert" style="<%=license.markedAsAbuse ? " " : "display:none " %> ">
+                  <%= abuseMessage %>
+                </div>
+                <div class="dynamic-element" data-behavior="chat-message-area" style="min-height: 180px" id="de-track-messages" de-refresh-period="20"
+                  de-refresh-offset="20" de-address="<%=license.address%>" de-showtrack="false" de-url="/elements/track-messages">
+                  <%- include('partials/track/track-messages.ejs', {messages: messages, showTrack: false}) %>
+                </div>
+                <div class="text-center pad5">
+                  <a href="mailto:musicoin@musicoin.org?subject=Report Track&body=LicenseId:<%=license.address%>" target="_blank">Report abuse</a>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+
+  <script>
+    var trackId = "<%=license.address%>"
+    var releaseId = "<%=releaseId%>"
+    $(document).ready(function () {
+      const messages = $("#de-track-messages");
+      const input = $("#chat-input");
+      input.on('keydown', function (e) {
+        if (e.keyCode == 13) {
+          var message = input.val();
+          input.val("");
+          dynamic.refreshElement(messages, {
+            message: message,
+            releaseid: releaseId
+          });
+        }
+      });
+
+      $(".promote-hero-track").on('click', function () {
+        var licenseAddress = $(this).attr("address");
+        new Message("Are you sure?", 'warning', 5000)
+          .button('Yes', function () {
+            $.post("/admin/hero/select", {
+              licenseAddress: licenseAddress
+            },
+              function (data) {
+                if (data.success) {
+                  new Message("Success!", 'success', 3000);
+                } else {
+                  new Message("Failed: " + data.reason, 'error', 5000);
+                }
+              })
+          })
+          .button('No', function () {
+
+          });
+      })
+
+      $(".mark-track-as-abuse").on('click', function () {
+        var element = $(this);
+        var markAsAbuse = element.attr("abuse") !== "true";
+        var licenseAddress = $(this).attr("address");
+        var msg = markAsAbuse ?
+          "Are you sure you want to mark this as abuse?" :
+          "Are you sure you want to mark this as ok?"
+        new Message(msg, 'warning', 5000)
+          .button('Yes', function () {
+            $.post("/admin/release/abuse", {
+              licenseAddress: licenseAddress,
+              abuse: markAsAbuse
+            },
+              function (data) {
+                if (data.success) {
+                  element.attr("abuse", markAsAbuse ? "true" : "false");
+                  element.text(markAsAbuse ? "Mark as ok" : "Mark as abuse")
+                  element.toggleClass("btn-danger", !markAsAbuse);
+                  element.toggleClass("btn-success", markAsAbuse);
+                  $(".abuse-alert").toggle();
+                  new Message("Success!", 'success', 3000);
+                } else {
+                  new Message("Failed: " + data.reason, 'error', 5000);
+                }
+              })
+          })
+          .button('No', function () {
+
+          });
+      })
+
+      dynamic.addDataHandler("track-earnings", function (element, data) {
+        var newPlays = parseInt(data.plays);
+        var newTips = parseInt(data.tips)
+        var newTotal = format.formatNumber(newPlays + newTips);
+        console.log("Updating earnings: " + JSON.stringify(data));
+        if (newTotal != element.find("[data-behavior~=track-earnings]").text()) {
+          element.find("[data-behavior~=track-earnings]").text(newTotal);
+          element.find("[data-behavior~=track-earnings-usd]").text(data.formattedTotalUSD);
+          element.find("[data-behavior~=track-plays]").text(format.formatNumber(newPlays));
+          element.find("[data-behavior~=track-tips]").text(format.formatNumber(newTips));
+          element.effect("bounce");
+        }
+      })
+    });
+
+    function editRelease(address) {
+      modalUtils.showDefaultModal("/release-manager/edit", {
+        contractAddress: address
+      });
+    }
+
+    function refreshMessageList() {
+      dynamic.refreshElement($("#de-track-messages"));
+    }
+  </script>
+<div class="hearts"></div>
+<script>
+  $( document ).ready(function() {
+  });
+</script>
+<style>
+    .links {
+        list-style-type: none;
+        display: flex;
+        font-size: 24px;
+        justify-content: center;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h5 class="subtle-text">Connect with us</h5>
+            <div class="links text-center">
+                <li><a class="pad5 subtle-text" href="https://twitter.com/musicoins" target="_blank"><i class="fa fa-twitter" aria-hidden="true" style="color: white"></i></a></li>
+                <li><a class="pad5 subtle-text" href="https://github.com/musicoin" target="_blank"><i class="fa fa-github" aria-hidden="true" style="color: white"></i></a></li>
+                <li><a class="pad5 subtle-text" href="mailto:musicoin@musicoin.org"><i class="fa fa-envelope" aria-hidden="true" style="color: white"></i></a></li>
+                <li><a class="pad5 subtle-text" href="https://medium.com/@musicoin" target="_blank"><i class="fa fa-medium" aria-hidden="true" style="color: white"></i></a></li>
+            </div>
+            <div style="position: absolute; left: 10px">
+              Designed by the <b>Musicoin Team</b>, © 2018 <br>Site best viewed with Chrome
+            </div>
+        </div>
+    </div>
+</div>
+
+      <script async src="/js/vote.js" charset="utf-8"></script>
+      <script>
+        function showMessage(msg, type, timeout) {
+          new Message(msg, type, timeout);
+        }
+      </script>
+</body>
+
+</html>

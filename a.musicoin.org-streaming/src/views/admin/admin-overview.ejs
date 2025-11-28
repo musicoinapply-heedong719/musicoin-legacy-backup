@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <title>Overview - Musicoin</title>
+    <%- include('../partials/page-head.ejs') %>
+    <style>
+        body        {
+            word-wrap:break-word;
+            background-size: cover;
+        }
+        .table > tbody > tr > td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<%- include('../partials/header.ejs') %>
+<div class="container">
+    <div class="row">
+    <a href="https://musicoin.org/admin/" class="btn btn-info btn-sm mr5" style="margin-top:5px; margin-bottom:10px" role="button">Go To Admin Panel</a>
+        <div class="col-sm-4">
+            <div class="well white-well">
+                <h3>User Stats</h3>
+                <table class="table table-responsive table-striped table-condensed">
+                    <% for (var m=0; m < userMetrics.length; m++) {
+                        const metric = userMetrics[m];
+                    %>
+                    <tr>
+                        <td class="text-right middle"><%=metric.name%></td>
+                        <td class="text-left middle"><%=metric.value%></td>
+                    </tr>
+                    <%}%>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="well white-well">
+                <h3>Tracks Stats</h3>
+                <table class="table table-responsive table-striped table-condensed">
+                    <% for (var m=0; m < trackMetrics.length; m++) {
+                        const metric = trackMetrics[m];
+                    %>
+                    <tr>
+                        <td class="text-right middle"><%=metric.name%></td>
+                        <td class="text-left middle"><%=metric.value%></td>
+                    </tr>
+                    <%}%>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="well white-well">
+                <h3>Blacklist</h3>
+                <form action="/admin/session/boot" method="post">
+                    <input id="boot" name=session placeholder="blacklist session">
+                </form>
+
+                <form action="/admin/session/unboot" method="post">
+                    <input id="boot" name=session placeholder="un-blacklist session">
+                </form>
+                <%= bootSessions %>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/connect-with-us.ejs') %>
+</body>
+</html>

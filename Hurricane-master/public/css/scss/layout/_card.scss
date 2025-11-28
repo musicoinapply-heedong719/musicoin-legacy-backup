@@ -1,0 +1,43 @@
+.card {
+    padding: 0;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    &__title {
+        display: flex;
+        justify-content: space-between;
+        font-size: em(16, $base_font-size);
+        font-weight: 500;
+        padding: 8px;
+    }
+    &__filter {
+        // display: flex;
+        font-size: em(12, $base_font-size);
+        font-weight: 400;
+
+        &-link {
+            color: #8899A6;
+            &.active {
+                font-weight: 500;
+                color: #333;
+            }
+        }
+    }
+    &__content {
+
+    }
+    .card__more {
+        padding: 8px;
+        font-size: em(12, $base_font-size);
+        text-align: center;
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        &-link {
+            color: #F3921B;
+        }
+    }
+}

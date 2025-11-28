@@ -1,0 +1,89 @@
+{
+  "name": "musicoin-wallet",
+  "description": "Official Musicoin desktop application.",
+  "version": "1.5.0",
+  "license": "MIT",
+  "private": false,
+  "node-main": "./hub/msc.js",
+  "main": "./interface/index.html",
+  "window": {
+    "title": "Musicoin Desktop",
+    "width": 1000,
+    "min_width": 1000,
+    "height": 600,
+    "min_height": 600,
+    "resizeable": true
+  },
+  "webkit": {
+    "plugin": true,
+    "page-cache": true
+  },
+  "build": {
+    "appId": "org.musicoin.app.desktop",
+    "nwVersion": "0.30.5",
+    "nwFlavor": "normal",
+    "output": "./dist",
+    "nwVersion": "0.31.0",
+    "nwFlavor": "normal",
+    "output": "dist",
+    "exclude": [
+      "./*.md",
+      "./local",
+      "./node_modules/nw",
+      "./node_modules/nwjs-builder"
+    ],
+    "ffmpegIntegration": true,
+    "targets": [
+      "zip", "nsis7z"
+    ],
+    "mac": {
+      "displayName": "Musicoin Desktop",
+      "copyright": "Musicoin"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Musicoin/desktop.git"
+  },
+  "bugs": "https://github.com/Musicoin/desktop/issues",
+  "dependencies": {
+    "bluebird": "~3.5.1",
+    "ethereum-blockies": "github:ethereum/blockies",
+    "ethers": "~3.0.17",
+    "fs-extra": "~6.0.1",
+    "fs-finder": "~1.8.1",
+    "jsqr": "~1.0.4",
+    "ntp-client": "~0.5.3",
+    "nwjs-builder": "~1.14.0",
+    "pngjs": "~3.3.2",
+    "qrcode": "~1.2.0",
+    "request": "~2.87.0",
+    "request-promise-native": "~1.0.5",
+    "web3": "github:Musicoin/web3.js",
+    "y18n": "~4.0.0",
+    "zxcvbn": "~4.4.2"
+  },
+  "scripts": {
+    "build-all": "yarn build-x64 && yarn build-x86",
+    "build-x86": "yarn run build -lw --x86 --concurrent ./",
+    "build-x64": "yarn run build -mlw --x64 --concurrent ./",
+    "cleanup": "rm -rf node_modules",
+    "copy-gmc": "mkdir -p ./bin/gmc && cp -r ./node_modules/musicoin-daemon/bin/* ./bin/gmc/",
+    "copy-ux": "cp -r ./node_modules/interface ./interface",
+    "debug": "yarn run run ./",
+    "prepare": "rm -rf {./interface/package.json,./interface/node_modules}",
+    "postinstall": "(yarn copy-gmc & yarn copy-ux)",
+    "preinstall": "rm -rf {./bin,./dist,./interface}",
+    "test": "ls -a dist/"
+  },
+  "devDependencies": {
+    "7zip-bin-mac": "~1.0.1",
+    "@morhaus/nwjs-builder-phoenix": "~1.15.0",
+    "interface": "github:Musicoin/desktop-interface",
+    "musicoin-daemon": "github:Musicoin/gmc-node-modules"
+  },
+  "engines": {
+    "node": ">=8.0.0",
+    "yarn": ">=1.6.0"
+  }
+}

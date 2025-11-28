@@ -1,0 +1,22 @@
+{
+  "address": "0x92e853935f8588956057ba87866fc6d58c82ba72",
+  "contract_id": "0x92e853935f8588956057ba87866fc6d58c82ba72",
+  "workAddress": "0xe14c33a455cec4219de1dbdf33b9dedf8890fa20",
+  "weiPerPlay": "1000000000000000000",
+  "coinsPerPlay": "1",
+  "tipCount": "0",
+  "totalEarned": "3000000000000000000",
+  "owner": "0x8d588a7839f190bd85668ada4f4997753d57cf6c",
+  "resourceUrl": "eipfs://QmWKGWJ9GUrbt5esEHTaZb52YiWYunnziqBfo7X3k5kyJg",
+  "contributors": [
+    {
+      "address": "0x8d588a7839f190bd85668ada4f4997753d57cf6c",
+      "shares": "1"
+    }
+  ],
+  "royalties": [],
+  "title": "Negelected Space",
+  "artist": "Imogen Heap",
+  "imageUrl": "ipfs://Qma8twUbDqHovVLCgDUzQC9HpZ24geVAw4qjYpDFMVsiMr",
+  "metadataUrl": "ipfs://QmTKM7DNXNjQUdWTjAnpwe1D8RwNV3GLE5yNa5Xp4jmxPF"
+}

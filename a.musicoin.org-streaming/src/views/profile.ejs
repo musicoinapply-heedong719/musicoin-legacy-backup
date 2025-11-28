@@ -1,0 +1,1226 @@
+<!doctype html>
+<html>
+<head>
+    <%- include('partials/page-head.ejs') %>
+    <title>Profile - Musicoin.org</title>
+    <style>
+        .popover-content {
+          color: black !important;
+        }
+        @font-face {
+            font-family: Ubuntu;
+            src: url('../fonts/Ubuntu-R.ttf');
+        }
+
+        .container > * {
+            font-family: Ubuntu;
+        }
+
+        .container a,
+        .container a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .profile-cover-wrapper {
+            position: relative;
+            display: flex;
+            width: 100%;
+            max-height: 400px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .cover-image {
+            width: 100%;
+        }
+
+        .edit-picture {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 3rem;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 2rem;
+        }
+
+        .edit-picture:hover {
+            color: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        .view-public-profile {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 3rem;
+        }
+
+        .view-public-profile > .public-profile-button {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0.7rem;
+            background-color: transparent;
+            color: #fff;
+            opacity: 0.5;
+        }
+
+        .view-public-profile > .public-profile-button:hover {
+            opacity: 1;
+        }
+        .view-public-profile > .public-profile-button:active {
+            transform: scale(0.97);
+        }
+
+        .public-profile-button > span {
+            margin-left: 1rem;
+        }
+
+        .unpublished-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            width: 1.8rem;
+            height: 1.8rem;
+            border: 1px solid #fff;
+            background-color: #fff1a9;
+            color: #8a6d3b;
+            opacity: 0.5;
+        }
+
+        .unpublished-info:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .hero-name-container {
+            position: absolute;
+            bottom: 0;
+            left: 380px;
+            padding: 2rem;
+        }
+
+        .profile-content-wrapper {
+            display: flex;
+            width: 100%;
+            height: fit-content;
+            min-height: 1000px;
+            background-color: #c3c3c3;
+        }
+
+        .profile-info-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+            height: fit-content;
+            margin: -200px 10px 10px 10px;
+            background-color: #383733;
+            box-shadow: 2px 3px 20px #000;
+            z-index: 1;
+        }
+
+        .profile-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 400px;
+            background-color: #1b0d00;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            height: 100%;
+        }
+
+        .profile-details-wrapper {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            min-width: 350px;
+        }
+
+        .notifications-setting-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .balance-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            height: fit-content;
+        }
+
+        .my-wallet {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+            margin-bottom: 1.4rem;
+        }
+
+        .wallet-header {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .wallet-header > h3 {
+            margin: 0;
+        }
+
+        .wallet-header > a {
+            position: absolute;
+            right: 0;
+        }
+
+        .my-wallet > .balance {
+            font-size: 5rem;
+            line-height: 5rem;
+        }
+
+        .my-wallet > .balance-with-label {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width:100%;
+            margin: 1rem 0;
+            padding: 1rem 1.5rem;
+            background-color: rgba(167, 159, 122, 0.05);
+            border-radius: 4px;
+        }
+
+        .profile-section-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            color: #c1c1c1;
+            font-size: 1.9rem;
+        }
+
+        .profile-section-header > i {
+            margin-left: 1rem;
+            font-size: 1.3rem;
+        }
+
+        input.profile-input,
+        textarea.profile-input {
+            background-color: transparent;
+            box-shadow: none;
+            border-bottom: 1px solid #555;
+            border-radius: 0;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        input.profile-input:focus,
+        textarea.profile-input:focus {
+            box-shadow: none;
+            border-bottom-color: #a79f7a;
+        }
+
+        input.form-control {
+            background-color: white;
+            color: black;
+        }
+
+        .td-profile-input {
+            margin: 0.4rem 0;
+        }
+
+        .td-profile-label {
+            color: grey;
+        }
+
+        .td-profile-label.active {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group > label {
+            font-size: 1.7rem;
+        }
+
+        .submit-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .submit-container > .submit-button {
+            background-color: #545454;
+            border-radius: 0;
+        }
+
+        .submit-container > .submit-button.publish-button {
+            background-color: #545454;
+            border-radius: 0;
+            -webkit-animation: glowing 1500ms infinite;
+            -moz-animation: glowing 1500ms infinite;
+            -o-animation: glowing 1500ms infinite;
+            animation: glowing 1500ms infinite;
+        }
+        @-webkit-keyframes glowing {
+            0% { background-color: #545454; -webkit-box-shadow: 0 0 3px #545454; }
+            50% { background-color: #a79f7a; -webkit-box-shadow: 0 0 40px #a79f7a; }
+            100% { background-color: #545454; -webkit-box-shadow: 0 0 3px #545454; }
+        }
+
+        @-moz-keyframes glowing {
+            0% { background-color: #545454; -moz-box-shadow: 0 0 3px #545454; }
+            50% { background-color: #a79f7a; -moz-box-shadow: 0 0 40px #a79f7a; }
+            100% { background-color: #545454; -moz-box-shadow: 0 0 3px #545454; }
+        }
+
+        @-o-keyframes glowing {
+            0% { background-color: #545454; box-shadow: 0 0 3px #545454; }
+            50% { background-color: #a79f7a; box-shadow: 0 0 40px #a79f7a; }
+            100% { background-color: #545454; box-shadow: 0 0 3px #545454; }
+        }
+
+        @keyframes glowing {
+            0% { background-color: #545454; box-shadow: 0 0 3px #545454; }
+            50% { background-color: #a79f7a; box-shadow: 0 0 40px #a79f7a; }
+            100% { background-color: #545454; box-shadow: 0 0 3px #545454; }
+        }
+
+        .submit-container > .submit-button:hover {
+            background-color: #a79f7a;
+            color: #000;
+            -webkit-animation: none;
+            -moz-animation: none;
+            -o-animation: none;
+            animation: none;
+        }
+
+        .submit-container > .submit-button:active {
+            transform: scale(0.97);
+        }
+
+        input:checked + .slider {
+            background-color: #a79f7a;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+            height: fit-content;
+            padding: 2.4rem;
+        }
+
+        .widgets-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 2rem;
+        }
+
+        .widget-wrapper {
+            margin: 0 1rem;
+        }
+
+        .widget-wrapper:first-child {
+            margin-left: 0 !important;
+        }
+
+        .widget-wrapper:last-child {
+            margin-right: 0 !important;
+        }
+
+        .widget-error-placeholder-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+            padding: 1rem 2rem;
+            background-color: #a79f7a;
+            box-shadow: 2px 3px 20px #000;
+        }
+
+        .widget-error-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+        }
+
+        .widget-error-header > h3 {
+            margin: 0;
+        }
+
+        .widget-error-message {
+            padding-top: 2rem;
+            font-size: 1.7rem;
+            line-height: 1.9rem;
+        }
+
+        .wallet-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            width: 800px;
+            height: 600px;
+
+        }
+
+        .wallet-balance {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 0 2rem;
+        }
+
+        .wallet-balance > .balance {
+            font-size: 6rem;
+            line-height: 6.3rem;
+        }
+
+        .wallet-wrapper-sides {
+            width: 100%;
+            height: 100%;
+            background-color: #f99f23;
+            box-shadow: 2px 3px 20px #000;
+        }
+
+        .wallet-transfers {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+            height: fit-content;
+            padding: 1rem;
+        }
+
+        .wallet-address {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+        }
+
+        .wallet-address > p,
+        .wallet-address > h4 {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .wallet-address > p {
+            margin-top: 1rem;
+            padding: 1rem;
+            font-size: 1.7rem;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .transfer-message-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+            padding: 1rem;
+        }
+
+        .invites-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            width: 50%;
+            height: 100%;
+
+        }
+
+        .invites-wrapper-sides {
+            width: 65%;
+            height: 100%;
+            background-color: #f99f23;
+            box-shadow: 2px 3px 20px #000;
+        }
+
+        .invites-header {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+            margin-bottom: 2rem;
+            padding: 0.4rem 2rem;
+        }
+
+        .invites-header > h3 {
+            margin: 0;
+        }
+
+        .invites-header > a {
+            position: absolute;
+            right: 2rem;
+        }
+
+        .invites-content {
+            width: 100%;
+            height: fit-content;
+        }
+
+        .invite-counter {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: fit-content;
+            padding: 0 2rem;
+        }
+
+        .invite-counter > .balance {
+            font-size: 10rem;
+            line-height: 10rem;
+        }
+
+        .invite-counter > .counter-label {
+            font-size: 2rem;
+            line-height: 2rem;
+        }
+
+        .invite-options {
+            width: 100%;
+            height: fit-content;
+            padding: 2rem 2rem 0 2rem;
+        }
+
+        .feed-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            height: fit-content;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .feed-error-placeholder-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+            height: fit-content;
+            padding: 1rem 0;
+        }
+
+        /* HELPER CSS CLASSES - TODO! move to a global css file */
+        textarea.fixed-width {
+            resize: vertical;
+        }
+
+        .clickable-icon:hover {
+            opacity: 0.8;
+        }
+
+        .clickable-icon:active {
+            transform: scale(0.9);
+        }
+
+        .notice-paragraph {
+            margin: 0.4rem;
+            padding: 0.4rem 1rem;
+            background-color: #fff1a9;
+            border: 1px solid #ffe35f;
+            border-radius: 4px;
+            font-size: 1.7rem;
+            color: #8a6d3b;
+        }
+
+        .notice-paragraph > a {
+            font-weight: bold;
+        }
+
+        .notice-paragraph > a:hover {
+            color: #664b1c;
+        }
+
+        .golden-grey {
+            color: #a79f7a !important;
+        }
+
+        .toggle-label {
+            margin-left: 1rem;
+        }
+
+        .faded {
+            opacity: 0.8;
+        }
+
+        .faded:hover {
+            opacity: 1;
+        }
+
+        .musicoin-currency-label {
+            display: block;
+            margin-left: 1rem;
+            line-height: inherit;
+            transform: scale(0.5);
+        }
+
+        .justify-left {
+            justify-content: flex-start;
+        }
+
+        /* -------------------------- */
+        /* | Flip Div animation CSS | */
+        /* -------------------------- */
+
+            .flip-container {
+                perspective: 1000px;
+                transform-style: preserve-3d;
+            }
+
+            .flip-container.flipped .flipper {
+                transform: rotateY(180deg);
+            }
+
+            .flipper {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transition: 0.6s;
+                transform-style: preserve-3d;
+            }
+
+            .front, .back {
+                backface-visibility: hidden;
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .front {
+                z-index: 2;
+                /* for firefox 31 */
+                transform: rotateY(0deg);
+            }
+
+            .back {
+                transform: rotateY(180deg);
+            }
+
+            .toggle-flip-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                width: 100%;
+                padding: 1rem 1rem 0 0;
+                opacity: 0.9;
+            }
+
+            .toggle-flip-container * {
+                margin: 0;
+                padding: 0;
+            }
+
+            .toggle-flip-container.container-space-between {
+                justify-content: space-between;
+                padding: 1rem 1rem 0 1rem;
+            }
+
+            .toggle-flip-container > div:not(.not-clickable):hover {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+        /* --------------------------------- */
+        /* | End of Flip Div animation CSS | */
+        /* --------------------------------- */
+
+
+    </style>
+</head>
+<body>
+<%- include('partials/header.ejs') %>
+<div id="licensePreview"></div>
+<div class="container">
+    <div class="profile-cover-wrapper">
+        <form id=profileCoverForm action="/profile/save" enctype="multipart/form-data" method="post">
+        <img id="profileCoverEdit" alt="No promo image selected" class="clickable"
+             style="object-fit: contain"
+             src="<%= user.profile.heroImage %>">
+             (click to set a wide-format promo image, 1300x300)
+        <input style="display: none" id="coverInput" type="file" name="hero">
+          </div>
+        </div>
+    </div>
+    <div class="profile-content-wrapper">
+        <div class="profile-info-wrapper">
+            <div class="profile-image-wrapper">
+                <div id="profileImageEdit" class="edit-image edit-picture clickable">
+                    <i style="color: white !important" class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                    <img src="<%= user.profile.image %>" class="profile-image" title="Click to change your profile" style="width:400px">
+                    <!-- <img id="profileImage" src="https://musicoin.org/static/media/ad-free-streaming.6c7ee93a.png" -->
+                        <!-- class="profile-image" title="Click to change your profile"/> -->
+                    <input style="display: none" id="imageInput" type="file" name="photo">
+            </div>
+            <div class="profile-details-wrapper">
+                <div class="notifications-setting-wrapper">
+                    <label class="switch">
+                        <input id="messagePreference"
+                                type="checkbox" <%= user.preferences && user.preferences.notifyOnComment ? "checked" : "" %>>
+                        <div class="slider round"></div>
+                    </label>
+                    <span class="toggle-label clickable golden-grey" onclick="$('#messagePreference').click()">Notify me about comments/tips</span>
+                </div>
+                <div class="balance-wrapper">
+                    <div class="my-wallet">
+                        <div class="text-center balance balance-with-label golden-grey">
+                            <span style="display: block; overflow: hidden; text-overflow: ellipsis;"><%= artist.formattedBalance %></span>
+                            <span class="musicoin-currency-label">MUSIC</span>
+                        </div>
+                    </div>
+                </div>
+                <% if (typeof sendResult != "undefined") { %>
+                <% if (sendResult.sendError) { %>
+                <div class="text-center text-danger">
+                    Send failed!
+                </div>
+                <% } else { %>
+                Payment sent! <div id="txid" style="word-wrap: break-word;"></div> <script>var txid = document.getElementById("txid").innerHTML = 'Txid: ' + location.search.split("false=")[1] + '\nYou could find your txid on <a style=color:#a79f7a target=_blank href=https://explorer.musicoin.org/tx/'+ location.search.split("false=")[1] + '>Explorer</a> with some slight delay'</script>
+                <% } %>
+                <% } %>
+                <% if (typeof sendMailResult != "undefined") { %>
+                <% if (sendMailResult.sendError) { %>
+                <div class="text-center">
+                    Email send failed!
+                </div>
+                <% } else { %>
+                   Check inbox for email with subject Musicoin Withdrawal Verification!
+                <% } %>
+                <% if (typeof pwdResult != "undefined") { %>
+                <% if (pwdResult.pwdError) { %>
+                <div class="text-center">
+                   Email/password authentification linking has failed. The password should be at least 10 characters long and must also contain one uppercase, one lowercase, one numerical and one special character.
+                </div>
+                <% } else { %>
+                <% } %>
+                <% } %>
+                <% } %>
+                <div class="profile-section-header clickable golden-grey" data-content="profileDetailsForm">
+                    <span>My Profile</span>
+                    <i class="fa fa-chevron-right" aria-hidden="true" style="display: none;"></i>
+                    <i class="fa fa-chevron-down" aria-hidden="true"  style="display: block;"></i>
+                </div>
+                    <div class="form-group">
+                        <label for="artistName">Name</label>
+                        <input type="text" class="form-control profile-input" name="artistName" value="<%= user.profile.artistName %>"
+                                placeholder="This can be a username or a band name">
+                    </div>
+                    <div class="form-group">
+                        <label for="primaryEmail">Email for email/password authentification</label>
+                        <input type="email" class="form-control profile-input" value="<%= user.local.email %>"
+                                placeholder="Email address" disabled>
+                    <div class="form-group">
+                    <label for="primaryEmail">Current account email</label>
+                        <input type="email" class="form-control profile-input" value="<%= user.primaryEmail %>"
+                                placeholder="Email address" disabled>
+                    </div>
+                        <div class="send-email-verify-link-holder">
+                            <a href="/connect/email" id="email-verify-link-sent" class="notice-paragraph" style="margin: unset;">Set/change your email or password</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">About</label>
+                        <textarea rows="2" class="form-control fixed-width profile-input" name="description"
+                                    placeholder="Let people know who you are"><%= user.profile.description %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="regions">Location</label>
+                        <input name="regions" class="form-control no-submit region-list profile-input"
+                                placeholder=""
+                                value="<%= user.profile.regions ? user.profile.regions.join(", ") : "" %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="genres">Genres</label>
+                        <input name="genres" class="form-control no-submit genre-list profile-input"
+                                placeholder="e.g. Rock, Country, etc"
+                                value="<%= user.profile.genres ? user.profile.genres.join(", ") : "" %>">
+                    </div>
+                <div class="profile-section-header clickable golden-grey" data-content="socialVerification">
+                        <span>Social Accounts For Verification</span>
+                        <i class="fa fa-chevron-right" aria-hidden="true" style="display: block;"></i>
+                        <i class="fa fa-chevron-down" aria-hidden="true"  style="display: none;"></i>
+                </div>
+                <div id="socialVerification" style="display: none;">
+                    <div class="form-group">
+                        <table class="social-group">
+                            <% if (user.facebook.token) { %>
+                            <tr>
+                            <td>
+                                <span class="fa fa-facebook"></span>
+                            </td>
+                            <td width="99%">
+                            <div class="flex-row m10" style="justify-content: space-between;">
+                                <a class="mr10" target=_blank href="<%= user.facebook.url %>">
+                                <%= user.facebook.name %>
+                                </a>
+                                <!---
+                                <div class="flex-row">
+                                <label class="switch">
+                                            <input id=facebookUrlIsPublic
+                                                    type="checkbox" <%= user.facebook && user.facebook.urlIsPublic ? "checked" : "" %>>
+                                            <div class="slider round"></div>
+                                        </label>
+                                </div> -->
+                            </div>
+
+                                <% if (user.twitter.token) { %>
+                                <div class="flex-row m10" style="justify-content: space-between;">
+                                    <a class="mr10" target=_blank href="<%= user.twitter.url %>">
+                                    <%= user.twitter.username %>
+                                    </a>
+                                    <!---
+                                    <div class="flex-row">
+                                    <label class="switch">
+                                            <input id=twitterUrlIsPublic
+                                                    type="checkbox" <%= user.twitter && user.twitter.urlIsPublic ? "checked" : "" %>>
+                                            <div class="slider round"></div>
+                                        </label>
+                                    </div>-->
+                                </div>
+                                <% } %>
+
+                                <% } else if (user.twitter.token) { %>
+                                    <div class="flex-row m10" style="justify-content: space-between;">
+                                    <a class="mr10" target=_blank href="<%= user.twitter.url %>">
+                                        <%= user.twitter.username %>
+                                    </a>
+                                    <!--
+                                    <div class="flex-row">
+                                        <label class="switch">
+                                            <input id=twitterUrlIsPublic
+                                                    type="checkbox" <%= user.twitter && user.twitter.urlIsPublic ? "checked" : "" %>>
+                                            <div class="slider round"></div>
+                                        </label>
+                                    </div>-->
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } else { %>
+                            <p class="notice-paragraph">Link your Twitter and Facebook Accounts to help get verified as a musician.</p>
+                            <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="profile-section-header clickable golden-grey" data-content="otherSocial">
+                        <span>Other Social</span>
+                        <i class="fa fa-chevron-right" aria-hidden="true" style="display: block;"></i>
+                        <i class="fa fa-chevron-down" aria-hidden="true"  style="display: none;"></i>
+                </div>
+                    <div class="form-group">
+                        <p class="">Add links to your other social pages as well</p>
+                        <table class="social-group">
+                            <%
+                            var socialTypes = [
+                                {id: "website", name: "Artist website", icon: "fa-external-link"},
+                                {id: "bandcamp"},
+                                {id: "google", icon: "fa-google-plus"},
+                                {id: "soundcloud", name: "SoundCloud"}, "linkedin", "youtube",
+                                {id: "Reverbnation", icon: "fa-star", name: "ReverbNation"},
+                                "Pinterest", "Instagram", "Medium"
+                            ]
+                            for (var i = 0; i < socialTypes.length; i++) {
+                                var item = socialTypes[i];
+                                if (typeof item == "string") {
+                                    item = {id: item};
+                                }
+                                var value = user.profile && user.profile.social ? user.profile.social[item.id] : "";
+                                var name = item.name ? item.name : item.id;
+                                var icon = item.icon ? item.icon : "fa-" + item.id;
+                            %>
+                            <tr>
+                                <td class="td-profile-label <%= value ? 'active' : '' %>"><span class="fa <%= icon %>"></span></td>
+                                <td width="99%"><input type="text" class="form-control profile-input td-profile-input" name="social.<%= item.id %>"
+                                                        value="<%= value %>" placeholder="<%= name %> profile page url">
+                                </td>
+                            </tr>
+                            <% } %>
+                        </table>
+                    </div>
+                    <div class="submit-container">
+                            <button type="submit" class="btn submit-button <%= (user.pendingTx || user.profileAddress) ? '' : 'publish-button' %>">
+                                <%= (user.pendingTx || user.profileAddress) ? "Update Profile" : "Publish Profile" %>
+                            </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="main-wrapper">
+            <div class="widgets-wrapper">
+                <div class="widget-wrapper wallet-wrapper flip-container">
+                    <% if (user.profileAddress) { %>
+                    <div class="flipper">
+                        <div class="front wallet-wrapper-sides" style="height: 36%">
+                            <div class="toggle-flip-container container-space-between">
+                                <div></div>
+                                <div class="not-clickable"><h2>My Wallet</h2></div>
+                                <div class="toggle-flip clickable"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="wallet-balance">
+                                <div class="balance"><%= artist.formattedBalance %></div>
+                                <div class="balance-label">MUSIC</div>
+                                <% if (exchangeRate.success) { %>
+                                <div class="text-center subtle-text">
+                                    <a target=_blank style="color:white" title="<%=exchangeRate.disclaimer%>" href="<%=exchangeRate.link%>"><%= artist.formattedUSD %> USD</a>
+                                </div>
+                                <% } %>
+                                <div class="text-center subtle-text">
+                                <p style="color:#f9eded" title="withdrawal-warning"> To complete withdrawal request user need to have active email.</p>
+                                <p style="color:#f9eded" title="withdrawal-warning"> You can set email in the profile details.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back wallet-wrapper-sides">
+                            <div class="toggle-flip-container container-space-between">
+                                <div>
+                                    <a target="_blank" id="showTransactionHistory" href="https://explorer.musicoin.org/account/<%= user.profileAddress %>"
+                                        class="clickable clickable-icon " title="Transaction history">
+                                        <i class="fa fa-list-ul" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                <div class="not-clickable"><h2>My Wallet</h2></div>
+                                <div class="toggle-flip clickable"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="wallet-transfers">
+                                <div class="wallet-address">
+                                    <h4>My Wallet Address</h4>
+                                    <p style="font-family: monospace; font-weight: 700"><%= user.profileAddress %></p>
+                                </div>
+                                <br>
+                                <div class="transfer-message-container">
+                                    <p>Send musicoins to a friend or transfer to another wallet (desktop/geth client) for safe keeping.</p>
+                                </div>
+                                <form name="sendFunds"  action="/send" method="post">
+                                <table cellpadding="3">
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="text-warning text-center mb20" style="font-size: 20px !important; color: white">Warning! Some exchanges will not recognize
+                                                coins sent directly from your profile. For ex. Cryptopia.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div class="form-group text-center">
+                                        <label>Recipient</label>
+                                        <input id="recip1" name=recipient type="text" class="form-control" placeholder="Address">
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <label>Amount</label>
+                                        <input name=amount type="number" step="0.0001" class="form-control text-right form-number" placeholder="0.0001">
+                                    </div>
+                                    <tr>
+                                    <td class="text-center">
+                                        <button id="sendme" class="btn btn-warning mb10">Send Coins</button>
+                                    </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                    <% } else { %>
+                        <div class="widget-error-placeholder-wrapper">
+                            <div class="widget-error-header">
+                                <h2 class="section-title">My Wallet</h2>
+                            </div>
+                            <div class="widget-error-message">
+                                Once you publish a profile, you can check your balance here and send coins to other users.
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="widget-wrapper invites-wrapper flip-container">
+                    <% if (user.profileAddress) { %>
+                        <% if (user.canInvite) { %>
+                        <div class="flipper">
+                            <div class="front invites-wrapper-sides">
+                                <div class="toggle-flip-container">
+                                    <div class="toggle-flip clickable"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+                                </div>
+                                <div class="invite-counter"><%= user.invitesRemaining %>
+                                    <div class="counter-label">invites left</div>
+                                </div>
+                                <div>
+                                <a class="center-text" style="color:white" href="/invite-history">Invite History</a>
+                                </div>
+                            </div>
+                            <div class="back invites-wrapper-sides" style="margin-left:35%;height: 400px;">
+                                <div class="toggle-flip-container container-space-between">
+                                    <div class="not-clickable"><h3>Invites</h3></div>
+                                    <div class="toggle-flip clickable"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+                                </div>
+                                <div class="invite-options">
+                                    <h4>Referral Link</h4>
+                                    <p class="subtle-text" style="color: white">
+                                        Your referral link is reusable! When some one signs up with your referral link, your
+                                        invites remaining will go down by one and you will get your reward.
+                                    <div class="text-success center-text" style="color: white">
+                                        Your referral link
+                                    </div>
+                                    <div class="center-text" style="color:white;word-wrap: break-word;">
+                                        https://musicoin.org/accept/<%= user.reusableInviteCode %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="widget-error-placeholder-wrapper">
+                            <div class="widget-error-header">
+                                <h3 class="section-title">Invites</h3>
+                            </div>
+                            <div class="widget-error-message">
+                                Once you publish a profile, you can invite other users to join here.
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
+            </div>
+            <div class="feed-wrapper" style="margin-top:400px">
+                <% if (user.profileAddress) { %>
+
+                <div class="dynamic-element col-sm-6"
+                    id="de-pending-releases"
+                    de-refresh-period="none"
+                    de-url="/elements/pending-releases">
+                    <%- include('partials/pending-releases.ejs') %>
+                </div>
+
+                <div class="dynamic-element col-sm-6"
+                    id="de-release-list"
+                    de-refresh-period="none"
+                    de-url="/elements/release-list">
+                    <%- include('partials/release-list.ejs') %>
+                </div>
+                <% } else { %>
+                    <div class="feed-error-placeholder-wrapper">
+                        <div class="widget-error-header justify-left">
+                            <h3 class="section-title">Release</h3>
+                        </div>
+                        <div class="widget-error-message">
+                            Once you publish a profile, you can release songs here.
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<%- include('partials/connect-with-us.ejs') %>
+</body>
+<script type="text/javascript" src="/js/musicoin.js"></script>
+<script type="text/javascript" src="/js/profile.js"></script>
+<script>
+  (function ($) {
+    // prevent dynamically created input elements from submitting the form
+    $('.contributors').on('keydown', '.no-submit', function (e) {
+      if (e.keyCode == 13) {
+        console.log('No way it will still submit the form...');
+        return false;
+      }
+    });
+  })(jQuery);
+
+  $(document).ready(function () {
+    $("#imageInput").change(function () {
+      readURL('profileImage', this);
+      $("#profileImageForm").submit();
+    });
+
+    $("#coverInput").change(function () {
+      readURL('coverImage', this);
+      $("#profileCoverForm").submit();
+    });
+
+    $("#profileImageEdit").click(function () {
+      $("#imageInput").click();
+    });
+
+    $("#profileCoverEdit").click(function () {
+      $("#coverInput").click();
+    });
+
+    $(".profile-section-header").click(function () {
+      var sectionId = $(this).data('content');
+      var section = $('#' + sectionId);
+
+      section.slideToggle(400, () => {
+          $(this).find('i').toggle();
+      });
+    });
+
+    $('.toggle-flip').click(function() {
+        console.log($(this).parents('.flip-container'));
+        $(this).parents('.flip-container').toggleClass('flipped');
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#messagePreference').change(function() {
+        var option = $(this).is(':checked');
+        // TODO! Not sent to the api with payload - can't implement
+        // $.post({
+        //     type: 'POST',
+        //     url: '/artist/save',
+        //     data: {},
+        //     success: (res) => {
+
+        //     },
+        //     error: (err) => {
+
+        //     },
+        //     dataType: 'json'
+        // });
+    });
+
+    // A consideration: sticky profile section
+    // var profileBoxScroll = $('.profile-info-wrapper').position().top;
+    // $(document).on('scroll', function(e) {
+    //     console.log(e.target.scrollingElement.scrollTop);
+    //     if (e.target.scrollingElement.scrollTop > profileBoxScroll) {
+    //         $('.profile-info-wrapper').css('top', 0).css('position', 'fixed');
+    //     } else {
+    //         $('.profile-info-wrapper').css('top', 'unset').css('position', 'unset');;
+    //     }
+    // });
+
+
+    function updateUrlVisibility(element, provider) {
+      var checked = element[0].checked;
+      $.post("/preferences/urlIsPublic", {
+        provider: provider,
+        urlIsPublic: checked
+      }, function (data) {
+        if (data.success) {
+
+        }
+        else {
+          new Message("Failed to update url prefs for " + provider, "error", 3000);
+          element[0].checked = !checked;
+        }
+      })
+    }
+
+    $("#facebookUrlIsPublic").change(function () {
+      updateUrlVisibility($(this), "facebook")
+    })
+    $("#twitterUrlIsPublic").change(function () {
+      updateUrlVisibility($(this), "twitter")
+    })
+
+    var inviteEmail = $("#inviteEmail");
+    var btnInvite = $("#btnInvite");
+    $("#inviteEmail").keyup(function () {
+      if (inviteEmail.val() && inviteEmail.val().trim().length > 0) {
+        btnInvite.text("Send invite");
+        btnInvite.addClass("btn-warning");
+        btnInvite.removeClass("btn-success");
+      }
+      else {
+        btnInvite.text("Create invite link");
+        btnInvite.removeClass("btn-warning");
+        btnInvite.addClass("btn-success");
+      }
+    })
+
+    var availableGenres = ["<%-metadata.genres.join('","')%>"];
+    var availableRegions = ["<%-metadata.regions.join('","')%>"];
+
+    autocomplete.linkAutoComplete(".genre-list", availableGenres, 0);
+    autocomplete.linkAutoComplete(".region-list", availableRegions, 2);
+
+    $.fn.serializeObject = function () {
+      var o = {};
+      var a = this.serializeArray();
+      $.each(a, function () {
+        if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push(this.value || '');
+        } else {
+          o[this.name] = this.value || '';
+        }
+      });
+      return o;
+    };
+
+  });
+
+  function readURL(targetId, input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#' + targetId).attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+</html>

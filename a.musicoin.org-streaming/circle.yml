@@ -1,0 +1,14 @@
+machine:
+  timezone: America/New_York
+  node:
+    version: 6.7.0
+
+database:
+  pre:
+    - npm install 
+    - tsc
+
+dependencies:
+  override:
+    - npm uninstall sharp
+    - npm install typescript -g

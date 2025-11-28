@@ -1,0 +1,15 @@
+[Unit]
+Description=Newsletter-mq
+
+[Service]
+ExecStart=/usr/bin/node server.js
+WorkingDirectory=/var/www/mcorg/running-master/newsletter-mq-server/
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=newsletter-mq
+User=root
+Group=root
+
+[Install]
+WantedBy=default.target

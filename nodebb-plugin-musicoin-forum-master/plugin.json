@@ -1,0 +1,24 @@
+{
+  "id": "nodebb-plugin-musicoin-forum",
+  "name": "NodeBB Musicoin Forum Plugin",
+  "description": "Auto Login to the Musicoin Forum",
+  "url": "https://github.com/musicoin/nodebb-plugin-musicoin-forum",
+  "library": "./library.js",
+  "hooks": [
+    {
+      "hook": "static:app.load",
+      "method": "load"
+    },
+    {
+      "hook": "filter:config.get",
+      "method": "extendConfig"
+    },
+    {
+      "hook": "filter:hotswap.prepare",
+      "method": "overrideLoginController"
+    }
+  ],
+  "scripts": [
+    "lib/musicoin-forum.js"
+  ]
+}

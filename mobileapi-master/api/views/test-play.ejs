@@ -1,0 +1,37 @@
+<html>
+
+<head>
+  <style media="screen">
+    @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:700|Source+Sans+Pro');
+  </style>
+
+  <style>
+
+  </style>
+
+</head>
+
+<body>
+  <div style="width: 100%;height: 100%;display: flex;flex-direction: row;">
+    <table style="margin: 20px">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>TrackUrl</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list">
+          <% response.forEach(val => { %>
+              <tr>
+                <th style="width: 20%;"><%= val.title %></th>
+                <th style="width: 60%;"><%= val.trackUrl %></th>
+                <th style="width: 10%;"><a target="_blank" href="<%= val.trackUrl %>">play</a></th>
+              </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

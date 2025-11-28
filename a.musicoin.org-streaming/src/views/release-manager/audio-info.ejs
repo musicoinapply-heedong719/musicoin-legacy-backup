@@ -1,0 +1,115 @@
+<style>
+  .profile-release-item {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    justify-content: space-around;
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  .profile-release-item>* {
+    margin-bottom: 10px;
+  }
+
+  .rights-section {
+    display: flex;
+    justify-content: center;
+  }
+
+  #pbar_innerdiv {
+    background-color: DarkOliveGreen;
+    z-index: 2;
+    height: 100%;
+    width: 0%;
+  }
+
+  #pbar_outerdiv {
+    max-width: 300px;
+    height: 5px;
+    border: 1px solid grey;
+    z-index: 1;
+    position: relative;
+    border: 1px DarkOliveGreen solid;
+    border-radius: 50px;
+    -moz-border-radius: 50px;
+    position: relative;
+    left: 220px;
+  }
+</style>
+
+<div class="flex-column">
+  <div class="flex-row" style="justify-content: center">
+    <div class="wizard-card-segment">
+      <h2>Upload Track</h2>
+      <p class="text-large subtle-text">
+        Please select an audio track to upload. As of now, we support only mp3 audio files but we will expand to other formats in the future.
+        <br>
+        Please wait for some time until the file is done uploading.
+      </p>
+      <div class="profile-release-item">
+        <!--
+          <input id="audio" style="display: none" onchange="alert(document.getElementById('audio').files.item(0).size); updateAudioLabel('audioLabel', this.id); updateAudioNextButton()" type="file" name="audio">
+        -->
+        <input id="audio" style="display: none" onchange="updateProgressBar();updateAudioLabel('audioLabel', this.id); updateAudioNextButton()" type="file" name="audio">
+        <div class="center-text m20">
+          <label class="btn btn-warning no-submit form-entry btn-lg" style="max-width: 300px" for="audio" id="audioLabel" accept="audio/*">Click to Upload File</label>
+        </div>
+
+        <div id="pbar_outerdiv" style="">
+          <div id="pbar_innerdiv" style=""></div>
+        </div>
+
+        <div class="rights-section">
+          <input id=rights name=rights type="checkbox" value="confirmed" style="margin-right: 10px" onchange="updateAudioNextButton()">
+          <label for="rights" style="text-transform: none; max-width: 400px">
+            I confirm that I am the exclusive rights holder for this piece of work and (or) have obtained the
+            rights necessary to release this work.
+          </label>
+        </div>
+
+        <div class="center-text">
+          <div class="subtle-text text-small" style="max-width: 500px">
+            Releasing copyrighted content owned by another person or entity without prior permission is a violation of our <a href="https://musicoin.org/legal/tos">terms of service </a>and will result in <font color="red">a disabled account</font>.
+          </div>
+        </div>
+      </div>
+      <div class="wizard-button-bar">
+        <div id="fromAudioToNext" condition="" class="navNext btn btn-success disabled">Next</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<script>
+  function updateProgressBar() {
+    var start = new Date();
+    var maxTime = Math.floor(document.getElementById('audio').files.item(0).size / 300000)*1000;
+    var timeoutVal = Math.floor(maxTime / 100);
+    animateUpdate();
+
+    function updateProgress(percentage) {
+      $('#pbar_innerdiv').css("width", percentage + "%");
+    }
+
+    function animateUpdate() {
+      var now = new Date();
+      var timeDiff = now.getTime() - start.getTime();
+      var perc = Math.round((timeDiff / maxTime) * 100);
+      // console.log(perc);
+      if (perc <= 100) {
+        updateProgress(perc);
+        setTimeout(animateUpdate, timeoutVal);
+      }
+    }
+  }
+
+  function updateAudioNextButton() {
+    $('#fromAudioToNext').toggleClass('disabled', !isAudioDone())
+  }
+
+  function isAudioDone() {
+    return $('#rights').prop("checked") && !!$("#audio").val();
+  }
+</script>

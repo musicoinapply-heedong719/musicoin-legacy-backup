@@ -1,0 +1,207 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.coin-logo {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+
+.flex-container {
+  display: flex;
+  vertical-align: middle;
+}
+
+.fl-right {
+  justify-content: end;
+}
+
+.fl-centered {
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-name {
+  font-weight: bold;
+  padding-left: 10pt;
+}
+
+.table-btn {
+  text-decoration: none;
+  margin-right: 10pt;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.mainApp{
+  padding-top: 94px;
+  background-color: #f1f1f1;
+}
+
+.header-spin{
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 15px;
+  color: white !important;
+}
+
+.header-spin-text {
+  color: white;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+}
+
+.fullscreen-msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 94px);
+  margin: 0;
+  padding: 0;
+}
+
+.fullscreen-msg-text {
+  color: rgb(61, 61, 61);
+  font-size: 1.5rem;
+  box-sizing: border-box;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.marg-left-10{
+  margin-left: 10px;
+}
+
+.marg-ri-20{
+  margin-right: 20px;
+}
+
+.marg-ri-10{
+  margin-right: 10px;
+}
+
+.marg-top-20 {
+  margin-top: 20px !important;
+}
+
+.marg-top-30 {
+  margin-top: 30px !important;
+}
+
+.marg-bott-20 {
+  margin-bottom: 20px !important;
+}
+
+.marg-bott-40 {
+  margin-bottom: 40px !important;
+}
+
+.spin-sm{
+  width: 20px !important;
+  height: 20px !important;
+  color: rgb(61, 61, 61) !important;
+}
+
+
+.fullscreen-spin{
+  width: 30px !important;
+  height: 30px !important;
+  color: rgb(61, 61, 61) !important;
+}
+
+.marg-bott-sm {
+  margin-bottom: 5px;
+}
+
+
+.padd-left-10 {
+  padding-left: 10px !important;
+}
+
+.AppWrap{
+  background-color: #f1f1f1;
+  height: 100vh;
+}
+
+.MuiPaper-rounded{
+  border-radius: 20px !important;
+}
+
+.MuiTableCell-root{
+  padding: 20px;
+}
+
+.table-left-padd{
+  padding-left: 26px !important;
+}
+
+.MuiCardContent-root{
+  padding: 36px !important;
+}
+
+
+.card-header{
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.wide {
+  width: 100%;
+}
+
+.MuiTypography-body1{
+  font-weight: 500 !important;
+}
+
+.active-help-icon{
+  padding-top: 5px;
+  color: rgba(0, 0, 0, 0.4);
+}

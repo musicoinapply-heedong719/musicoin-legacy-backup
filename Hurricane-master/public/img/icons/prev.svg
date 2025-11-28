@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="prev" transform="translate(-838 -1024)">
+    <path id="ic_skip_previous_24px" d="M6,6H8.667V22H6Zm4.667,8L22,22V6Z" transform="translate(832 1018)" fill="#333"/>
+  </g>
+</svg>

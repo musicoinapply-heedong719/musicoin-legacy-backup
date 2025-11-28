@@ -1,0 +1,50 @@
+#share-track-options-dialog .dialog-wrapper {
+	margin-top: 100px;
+}
+
+#share-options {
+  padding: 0;
+  margin: 0;
+}
+
+.share-option {
+  list-style: none;
+  display: inline-block;
+}
+
+.share-option a {}
+
+#open-share-dialog {
+	display: inline-block;
+}
+
+#social-sharing-preview-frame {
+	border: 0;
+	    width: 100%;
+}
+
+.social-sharing-preview {
+
+}
+
+#share-options-container {
+	padding: 0;
+}
+
+#share-options-header {
+
+}
+
+#share-options-header, {
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 0;
+    border-top: 3px solid #dcdcdc;
+    margin-top: 0px;
+    font-size: 16px;
+    padding-top: 5px;
+    margin-left: -5px;
+    margin-right: -5px;
+    padding-right: 5px;
+    padding-left: 5px;
+}

@@ -1,0 +1,254 @@
+<% if (releases && releases.length > 0) { %>
+    <style>
+        .release-container {
+            position: relative;
+            padding: 10px;
+            margin-bottom: 5px;
+            display: flex;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .flex-row.release-container {
+            align-items: flex-start;
+        }
+
+        .tracks-stat {
+            margin-right: 20px;
+        }
+        .track-title {
+
+        }
+        .track-artist {
+            color: black;
+        }
+        .track-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .description {
+            max-width: 200px;
+            display: inline-flex;
+            white-space: nowrap;
+            overflow-x: hidden;
+        }
+        .track-image {
+            background-size: cover;
+            height: 100px;
+            width: 100px;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 4px;
+        }
+        .show-off {
+            width: 100px;
+            height: 114px;
+            position: absolute;
+            top: -10px;
+            left: -29px;
+            transform: rotate(10deg);
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0)50%, rgba(255, 255, 255, 0.5)100%);
+        }
+        .show-off-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .release-actions {
+            align-items: flex-end;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .release-address {
+        }
+
+        .release-container:hover .release-actions,
+        .release-container.hover .release-actions,
+        .release-container[selected] .release-actions {
+            visibility: visible;
+        }
+
+        .distribute {
+            background-color: #337ab7;
+            color: white;
+            border-radius: 2px;
+            padding: 2px;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+
+        .release-actions > a {
+            padding: 0;
+            color: black;
+        }
+
+        .release-actions > a:hover {
+            padding: 0;
+            color: #ccc;
+        }
+
+        .release-actions > a.text-danger {
+            padding: 0;
+            margin-top: 10px;
+            color: black;
+        }
+
+        .release-actions > a.text-danger:hover {
+            padding: 0;
+            color: #c00;
+        }
+
+    </style>
+
+<div class="well">
+    <h3>My Releases</h3>
+    <div class="de-refresh-button abs-top-right subtle-text clickable show-on-well-hover">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+    </div>
+    <div class="center-text">
+        <div >
+            Playback reporting frequency
+        </div>
+        <div class="btn-group btn-group-sm m10" id="emailReportOptions">
+            <%
+                var reportingFrequency = "week";
+                if (typeof user != "undefined"
+                        && typeof user.preferences != "undefined"
+                        && user.preferences
+                        && typeof user.preferences.activityReporting != "undefined"
+                        && user.preferences.activityReporting) {
+                    reportingFrequency = user.preferences.activityReporting;
+                }
+            %>
+            <button type="button" frequency=off class="reporting-frequency-option btn <%= reportingFrequency=="off" ? "btn-primary" : "btn-default" %>">Off</button>
+            <button type="button" frequency=week class="reporting-frequency-option btn <%= reportingFrequency=="week" ? "btn-primary" : "btn-default" %>">Weekly</button>
+        </div>
+    </div>
+
+    <div class="track-list">
+        <%
+        var max = typeof maxItems == "undefined" ? releases.length : maxItems;
+        var toShow = Math.min(max, releases.length);
+        for (var i=0; i < toShow; i++) {
+            var release = releases[i];
+            var releaseId = "release" + i;
+        %>
+        <div class="release-container flex-row">
+            <div id="<%= releaseId %>" class="flex-column"
+                 style="flex-grow: 1"
+                 onclick='$("[selected]").removeAttr("selected"); $(this).attr("selected", true)'>
+                <div class="flex-row">
+                    <div class="track-image show-off-container"
+                         style="background-image: url('<%= release.image %>')">
+                        <div class="show-off"></div>
+                    </div>
+
+                    <div class="flex-column pad10">
+                        <div class="track-title" title="<%= release.title %>"><a
+                                    href="/track/<%= release.address %>"><%= release.title %></a></div>
+                        <div class="description track-artist"><%= release.playCount %> plays</div>
+                        <div class="description track-artist"><%= release.totalEarnedCoins %> earned</div>
+                        <% if(release.balance > 0) { %>
+                        <div class="track-artist mr10 mt10"><%= release.balance %> MC pending distribution
+                            <div class="flex-column">
+                                <a class="btn btn-primary btn-sm distribute"
+                                   onclick="distributeBalance('<%= release.address %>')">distribute</a>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="release-address text-center subtle-text pad5">
+                    <%= release.address %>
+                </div>
+            </div>
+            <div class="dropdown" style="position: relative ; right: 100px;  top: 20px">
+                <div class="dropdown-toggle clickable subtle-text" type="button" data-toggle="dropdown">options <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a target="_blank" title="View History"
+                           href="https://explorer.musicoin.org/account/<%= release.address %>">
+                            <span class="fa fa-list-ul"></span> View History</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a title="View License"
+                           class="clickable"
+                           onclick="modalUtils.showModal('thread-modal', '/license/view/', {address: '<%= release.address %>', hideButtonBar: true})">
+                            <span class="fa fa-file-text-o"></span> View License
+                        </a></li>
+                    <li><a title="Edit License"
+                           class="clickable"
+                           onclick="editRelease('<%= release.address %>')">
+                            <span class="fa fa-pencil"></span> Edit License</a></li>
+                    <li class="divider"></li>
+                    <li><a class="clickable"
+                            onclick='promptDelete("<%=releaseId%>", "<%=release.address%>", "<%=release.title%>")'>
+                            <span class="fa fa-trash-o"></span> Delete</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <%}%>
+    </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $(".reporting-frequency-option").click(function() {
+      var optionGroup = $("#emailReportOptions");
+      var newSelection = $(this);
+      var wasSelected = optionGroup.children("[selected]")
+
+      var frequency = newSelection.attr('frequency');
+      optionGroup.children().removeAttr('selected');
+      optionGroup.children().removeClass('btn-primary');
+      optionGroup.children().addClass('btn-default');
+
+      $.post("/preferences/update", {
+        activityReporting: frequency
+      }, function (data) {
+        var selected;
+        if (data.success) {
+          selected = newSelection;
+        }
+        else {
+          new Message("Failed to update preferences", "error", 3000);
+          selected = wasSelected;
+        }
+        selected.attr('selected', 'true');
+        selected.removeClass('btn-default');
+        selected.addClass('btn-primary');
+      })
+    });
+  });
+
+  function editRelease(address) {
+    modalUtils.showDefaultModal("/release-manager/edit", {contractAddress: address});
+  }
+
+  function promptDelete(elementId, address, name) {
+    if(prompt('Type `delete` to confirm that you want to delete `' + name + '`')=='delete') {
+      $.post('/license/delete', {contractAddress: address}, function(data) {
+        if (data.success) {
+          $('#' + elementId).remove();
+        }
+        else {
+          alert("Failed to delete: " + data.message);
+        }
+      })
+    }
+    else {
+      return false;
+    }
+  }
+
+  function distributeBalance(address) {
+  $.post('/license/distributeBalance', {contractAddress: address}, function(data) {
+    if (data.success) {
+      new Message("Transaction sent, your balance will be distributed as designated by the PPP contract", "success", 5000);
+    }
+    else {
+      new Message("Failed to distribute: " + data.message, "error", 5000);
+    }
+  })
+  }
+</script>
+<%}%>

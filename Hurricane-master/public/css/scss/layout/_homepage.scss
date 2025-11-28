@@ -1,0 +1,28 @@
+.container {
+    width: 1200px;
+    // background-color: red;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.content__container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+
+    &-left {
+        flex: 1;
+    }
+    &-middle {
+        flex: 2.42;
+        margin: 0 16px;
+        // background-color: green;
+    }
+    &-right {
+        flex: 1;
+    }
+}

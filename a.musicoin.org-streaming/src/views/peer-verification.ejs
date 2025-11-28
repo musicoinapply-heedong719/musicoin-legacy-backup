@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Artists | Musicoin </title>
+  <%- include('partials/page-head.ejs') %>
+    <style>
+      body {
+        word-wrap: break-word;
+        background-size: cover;
+      }
+
+      .table>tbody>tr>td {
+        vertical-align: middle;
+      }
+    </style>
+    <style>
+      tr.claimed {
+        background-color: rgba(0, 200, 0, 0.1);
+      }
+
+      tr.profile {
+        background-color: rgba(0, 200, 0, 0.2);
+      }
+
+      tr.no-release {
+        background-color: rgba(228, 170, 23, 0.3);
+      }
+
+      tr.locked {
+        background-color: rgba(200, 0, 0, 0.2);
+      }
+    </style>
+
+
+</head>
+
+<body>
+  <%- include('partials/header.ejs') %>
+    <div id="user-container">
+      <table class="table table-responsive white-well">
+        <tr>
+          <th class="text-center">Profile</th>
+          <th class="text-center">Linked Addresses</th>
+          <th class="text-center">Music<br>Released</th>
+        </tr>
+
+        <% for (var ivt = 0; ivt < users.length; ivt++) {
+            var user = users[ivt];
+            var checked = 'yes';
+            var unchecked = '-';
+            var invite = user.invite ? user.invite : {};
+            var invitedBy = invite.invitedBy || {};
+            var state = user.accountLocked ? "locked"
+                    : user.blocked ? "no-release"
+                            : invite.claimed
+                                    ? (user.profileAddress && user.draftProfile.artistName) ? "profile" : "claimed"
+                                    : "";
+            var name = user.draftProfile && user.draftProfile.artistName ? user.draftProfile.artistName : "this user";
+            var escapedName = name.replace(/'/g, "\\'");
+        %>
+        <% if ((user.verified != true) && (user.mostRecentReleaseDate != null)) { %>
+            <tr class="<%= state %>">
+              <td class="text-center middle">
+                <% if(user.profileAddress && user.draftProfile.artistName) { %>
+                  <a target="_blank" href="/artist/<%= user.profileAddress %>">
+                    <%= user.draftProfile.artistName %>
+                  </a>
+                  <% } else if (user.draftProfile && user.draftProfile.artistName) { %>
+                    <%= user.draftProfile.artistName %>
+                      <% } else { %>
+                        <%= unchecked %>
+                          <% } %>
+
+                            <% if (user.draftProfile && typeof user.draftProfile.version != "undefined") { %>
+                              (v
+                              <%= user.draftProfile.version %>)
+                                <% } %>
+                                  <% if (user.verified) { %>
+                                    <i class="verified" title="verified user"></i>
+                                    <% } %>
+                                      <br>
+                                      <%=user.timeSinceJoining%>
+                                        <br>
+                                        <a class="de-parameter-setter clickable" de-parameters="invitedby=<%=user._id%>,search=,start=0" title="show users invited by this user">
+                    show invitees
+                </a>
+              </td>
+              <td class="text-center middle">
+                <table cellpadding="2">
+                  <% if (!!user.google.token) { %>
+                    <%
+                        const googleUrl = user.google.url ? user.google.url : "https://plus.google.com/" + user.google.id;
+                    %>
+                      <tr>
+                        <td><span class="btn fa fa-google-plus"></span></td>
+                        <td class="text-left">
+                          <a target=_blank href="<%= googleUrl %>">
+                            <%- user.google.name %>,
+                              <%- user.google.email %>
+                          </a>
+                        </td>
+                      </tr>
+                      <% } %>
+
+                        <% if (!!user.twitter.token) { %>
+                          <tr>
+                            <td><span class="btn fa fa-twitter"></span></td>
+                            <td class="text-left">
+                              <%
+                             const twitterUrl = user.twitter.url ? user.twitter.url : "https://twitter.com/" + user.twitter.username;
+                            %>
+                                <a target=_blank href="<%= twitterUrl %>">
+                                  <%- user.twitter.username %>,
+                                    <%- user.twitter.displayName %>
+                                </a>
+                            </td>
+                          </tr>
+                          <% } %>
+
+                            <% if (!!user.facebook.token) { %>
+                              <%
+                        const facebookUrl = user.facebook.url ? user.facebook.url : "https://www.facebook.com/app_scoped_user_id/" + user.facebook.id;
+                    %>
+                                <tr>
+                                  <td class=""><span class="btn fa fa-facebook"></span></td>
+                                  <td class="text-left">
+                                    <a target=_blank href="<%= facebookUrl %>">
+                                      <%- user.facebook.name %>,
+                                        <%- user.facebook.email %>
+                                    </a>
+                                  </td>
+                                </tr>
+                                <% } %>
+
+                                  <% if (!!user.local.id) { %>
+                                    <tr>
+                                      <td><span class="btn fa fa-envelope-o"></span></td>
+                                      <td class="text-left">
+                                        <%- user.local.email %>
+                                      </td>
+                                    </tr>
+                                    <% } %>
+                </table>
+              </td>
+              <td class="text-center middle">
+                <% if (user.mostRecentReleaseDate) { %>
+                  yes<br>
+                  <a class="de-parameter-setter clickable" de-target="de-releases" de-parameters="search=<%=user.profileAddress%>,start=0" title="show users invited by this user">
+                    (view in releases table)
+                </a>
+                  <% } %>
+              </td>
+            </tr>
+            <% } %>
+              <% } %>
+      </table>
+    </div>
+</body>
+<script>
+  function refreshUserContainer() {
+    dynamic.refreshElement($($("#user-container").closest('.dynamic-element')))
+  }
+</script>
+
+</html>

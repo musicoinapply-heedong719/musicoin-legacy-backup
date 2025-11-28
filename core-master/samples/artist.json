@@ -1,0 +1,16 @@
+{
+  "descriptionUrl": "ipfs://QmPkYEmA2z7gcr7W41Zc3aFwhhiWZgJGDNBjrH8ZNXvwSV",
+  "artistName": "Dan",
+  "owner": "0xd194c585c559684939a1bf1d31cddc40017ac9d4",
+  "imageUrl": "ipfs://QmS8n4RKatEwtUY5bsuNbY8T6QLGvAVvjvf22s4Su3R9NV",
+  "followers": "0",
+  "socialUrl": "ipfs://QmPVVPHZV3zWZSsNZkRsainXTondciQpxqh4wSfgpCrmT3",
+  "tipTotal": "0",
+  "tipCount": "0",
+  "description": "Here is some description of the artist",
+  "social": {
+    "twitter": "https://twitter.com/danphifer",
+    "linkedin": ""
+  },
+  "image": "/ipfs/QmS8n4RKatEwtUY5bsuNbY8T6QLGvAVvjvf22s4Su3R9NV"
+}

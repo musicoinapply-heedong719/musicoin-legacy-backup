@@ -1,0 +1,35 @@
+{
+  "name": "musicoin-daemon",
+  "version": "1.5.1",
+  "description": "a go-musicoin binary for node",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://musicoin.org",
+  "bugs": {
+    "mail": "13@etaletai.com",
+    "web": "https://github.com/etaletai13/gmc/issues"
+  },
+  "issues": "https://github.com/etaletai13/gmc/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etaletai13/gmc.git"
+  },
+  "bin": {
+    "gmc": "./bin/gmc"
+  },
+  "keywords": [
+    "go-musicoin",
+    "musicoin",
+    "blockchain",
+    "gmc",
+    "wallet"
+  ],
+  "scripts": {
+    "install": "yarn clone && yarn patch && yarn build && yarn clean",
+    "build": "cd src && make gmc",
+    "patch": "sed -i.tmp 's/1.7/1.10/g' ./src/build/ci.go",
+    "clone": "git clone https://github.com/Musicoin/go-musicoin.git src",
+    "clean": "rm -f ./bin/gmc && mv src/build/bin/gmc ./bin/gmc",
+    "test": "./bin/gmc version"
+  }
+}

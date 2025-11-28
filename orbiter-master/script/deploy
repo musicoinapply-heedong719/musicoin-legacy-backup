@@ -1,0 +1,8 @@
+ssh jenkins@104.196.252.27  <<EOF
+  sudo su
+  cd ~/orbiter
+  git pull
+  npm install --production
+  pm2 restart all
+  exit
+EOF

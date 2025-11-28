@@ -1,0 +1,93 @@
+<% if (releases && releases.length > 0) { %>
+    <style>
+        .tracks-flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+        .tracks-flex-col {
+            display: flex;
+            flex-direction: column;
+        }
+        .track-container {
+            padding: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            border-radius: 4px;
+        }
+        .tracks-stat {
+            margin-right: 20px;
+        }
+        .track-title {
+            color: #333;
+        }
+        .track-artist {
+            color: #888;
+        }
+        .track-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .description {
+            max-width: 100px;
+            display: inline-flex;
+            white-space: nowrap;
+            overflow-x: hidden;
+            color: #888;
+        }
+        .track-image {
+            background-size: cover;
+            height: 100px;
+            width: 100px;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 4px;
+        }
+        .show-off {
+            width: 100px;
+            height: 114px;
+            position: absolute;
+            top: -10px;
+            left: -29px;
+            transform: rotate(10deg);
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0)50%, rgba(255, 255, 255, 0.5)100%);
+        }
+        .show-off-container {
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+    <div class="track-list">
+        <%
+        var max = typeof maxItems == "undefined" ? releases.length : maxItems;
+        var toShow = Math.min(max, releases.length);
+        for (var i=0; i < toShow; i++) {
+            var release = releases[i];
+        %>
+        <div class="track-container tracks-flex-col">
+            <div class="audio-track track-image clickable"
+                 licenseAddress='<%=release.address%>'
+                 style="background-image: url('<%=release.image%>')">
+            </div>
+
+            <div class="description clickable" title="<%=release.title%>">
+                <a href="/track/<%=release.address%>" class="track-title" style="color: white">
+                    <%=release.title%>
+                </a>
+            </div>
+            <div class="description">
+                <a href="/artist/<%=release.artistProfileAddress%>" class="track-artist">
+                    <%=release.artistName%>
+                </a>
+            </div>
+            <% if (sort == "tips") { %>
+            <div class="description track-artist"><%=release.directTipCount%> tips</div>
+            <% } else if (sort == "plays") { %>
+            <div class="description track-artist"><%=release.directPlayCount%> plays</div>
+            <% } else { %>
+            <div class="description track-artist"><%=release.timeSince%></div>
+            <% } %>
+        </div>
+        <%}%>
+
+    </div>
+<%}%>

@@ -1,0 +1,86 @@
+<style>
+    .license-container {
+        background-color: white;
+        color: black;
+        padding: 15px;
+        padding-top: 5px;
+        border-radius: 5px;
+    }
+
+    .parameter {
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+        border: 1px solid #eee;
+        border-bottom: 1px solid black;
+        padding: 5px;
+        text-align: center;
+        color: darkblue;
+    }
+
+    p {
+        display: inline;
+    }
+
+    h3 {
+        text-align: center;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+    .missing {
+        background-color: #fee;
+    }
+
+</style>
+<div class="license-container">
+    This is a human-readable summary of the Pay Per Play license for
+    <span class="<%= license.title ? "" : "missing"%> parameter"><%= license.title %>&nbsp;</span> by <span class="parameter"><%= license.artistName %></span>
+    <% if (license.address) { %>
+    , with license address  <span class="parameter"><%=license.address%></span>
+    <%}%>.
+    <br><br>
+    By listening to this work, the listener agrees to:
+    <ul>
+        <li>Pay <span class="parameter"><%= license.coinsPerPlay %></span> musicoin to the owner of
+            this licensed work.
+        </li>
+    </ul>
+    <div class="license-section text-left">Plays</div>
+    Upon successful execution of the payment, the full amount will be divided into
+    <span class="parameter"><%=computeTotalShares(license)%></span>
+    total shares and distributed to the following accounts:
+    <table class="table table-bordered table-condensed">
+        <tr><th class="col-md-5">Address</th><th class="col-md-1">Shares</th></tr>
+        <% for (var c = 0; c < license.contributors.length; c++) {
+            var contributor = license.contributors[c];
+            var percentage = formatNumber(100*contributor.shares / computeTotalShares(license));
+        %>
+        <tr>
+            <td class="<%=contributor.invalid ? 'danger' : ''%>"><%= contributor.address %>
+                <% if (contributor.alternateAddress) {%>
+                <div class="subtle-text">(<%=contributor.alternateAddress%>)</div>
+                <%}%>
+            </td>
+            <td><%= contributor.shares %>
+                <div class="subtle-text"><%=percentage%>%</div></td></tr>
+        <% } %>
+    </table>
+    <div class="license-section text-left">Tips</div>
+    Tips sent to the PPP license will be divided in the same manner as above.
+</div>
+
+<%
+function computeTotalShares(license) {
+  if (!license.contributors) return 0;
+  return license.contributors.map(c => parseInt(c.shares)).reduce((total, c) => {
+    return total + c;
+  }, 0);
+}
+
+function formatNumber(value) {
+    return parseFloat(value).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+%>
